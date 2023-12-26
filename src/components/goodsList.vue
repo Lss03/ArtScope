@@ -1,18 +1,33 @@
 <template>
-  <div class="list">
-    <div class="item" v-for="goods in goodslist" :key="goods.id">
-      <div class="item-l">
-        <img class="item-img" :src="goods.src">
-      </div>
-      <div class="item-r">
-        <div class="item-title">{{ goods.title }}</div>
-        <div class="item-price">{{ goods.price | currency }}</div>
-        <div class="item-opt">
-          <button @click="add(goods)">加入购物车</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col
+          cols="12"
+          v-for="goods in goodslist"
+          :key="goods.id"
+          class="my-3"
+      >
+        <v-card>
+          <v-layout row wrap>
+            <v-flex xs4>
+              <v-img :src="goods.src" class="grey lighten-2" aspect-ratio="1" ></v-img>
+            </v-flex>
+            <v-flex xs8>
+              <v-card-title primary-title>
+                {{ goods.title }}
+              </v-card-title>
+              <v-card-subtitle>
+                {{ goods.price | currency }}
+              </v-card-subtitle>
+              <v-card-actions>
+                <v-btn color="coral" @click="add(goods)">加入购物车</v-btn>
+              </v-card-actions>
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -34,63 +49,7 @@ export default {
 }
 </script>
 
+<!-- 由于现在使用了 Vuetify 的内建类，所以不再需要大量的自定义 CSS -->
 <style>
-/* 商品列表样式 */
-.list {
-  padding-left: -48px; /* 左边距 */
-  padding-top: 96px; /* 顶部内边距，根据标题栏的高度进行调整 */
-  margin-left: -96px; /* 与侧边栏宽度一致的外边距 */
-}
-
-.item {
-  border-bottom: 1px dashed #ccc;
-  padding: 10px;
-  margin-bottom: 16px; /* 商品项底部间距 */
-}
-
-.item::after {
-  content: "";
-  display: block;
-  clear: both;
-}
-
-.item-l {
-  float: left;
-  font-size: 0;
-}
-
-.item-img {
-  width: 100px;
-  height: 100px;
-  border: 1px solid #ccc;
-}
-
-.item-r {
-  float: left;
-  padding-left: 20px; /* 商品信息左边距 */
-}
-
-.item-title {
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.item-price {
-  margin-top: 10px;
-  color: #f00;
-  font-size: 15px;
-}
-
-.item-opt {
-  margin-top: 10px;
-}
-
-.item-opt button {
-  border: 0;
-  background: coral;
-  color: #fff;
-  padding: 4px 5px;
-  cursor: pointer;
-}
-
+/* 仍然可以保留一些必要的样式，如果有的话 */
 </style>
