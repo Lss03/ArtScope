@@ -35,7 +35,7 @@
                 <v-list-item-title>AI绘画</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="$router.push('/login')">
+            <v-list-item link @click="$router.push('/login1')">
               <v-list-item-icon>
                 <v-icon>mdi-login</v-icon>
               </v-list-item-icon>
