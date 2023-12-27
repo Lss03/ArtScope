@@ -35,7 +35,7 @@
                 <v-list-item-title>AI绘画</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="$router.push('/login')">
+            <v-list-item link @click="$router.push('/login1')">
               <v-list-item-icon>
                 <v-icon>mdi-login</v-icon>
               </v-list-item-icon>
@@ -58,21 +58,6 @@
       <!-- 右侧内容区 -->
       <v-col cols="12" md="9" class="pa-0">
         <!-- 右侧区域的顶部标题 -->
-        <v-sheet
-            color="blue lighten-2"
-            class="d-flex align-center"
-            height="200px"
-            tile
-        >
-          <v-container>
-            <v-row justify="center">
-              <v-col cols="12" class="text-center">
-                <span class="display-2 white--text">艺景图片交易绘画平台</span>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-sheet>
-
         <!-- 路由视图 -->
         <v-container class="py-0 px-4 fill-height">
           <router-view></router-view>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import shopCart from "@/components/shopCart.vue";
 import goodsList from "@/components/goodsList.vue";
 import LoginForm  from "@/components/LoginForm.vue";
+import LoginView from "@/views/LoginView.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -29,7 +30,12 @@ const routes = [
     component: shopCart },
     { path: '/login',
     name: 'LoginForm',
-    component: LoginForm }
+    component: LoginForm },
+  {
+    path: '/login1',
+    name: 'LoginView',
+    component: LoginView
+  }
 ]
 
 const router = new VueRouter({
