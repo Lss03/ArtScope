@@ -2,17 +2,20 @@
 
 .login-form-container {
     display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    position: fixed; /* 固定定位 */
-    top: 103px; /* 标题栏高度，确保不被覆盖 */
-    left: 308px; /* 侧边栏宽度 */
-    right: 0; /* 右边界对齐 */
-    bottom: 0; /* 底部对齐 */
-    overflow: hidden; /* 隐藏溢出内容 */
-    z-index: 1000; /* 高层级确保显示在最上面 */
-    border-radius: 15px; /* 添加圆角 */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 70px; /* 标题栏高度加上16px的留白 */
+    left: 256px; /* 与侧边栏接壤 */
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 1000;
+    border-radius: 15px;
+    transition: 0.5s; /* 添加过渡动画 */
+    background: rgba(0, 0, 0, 0.6); /* 添加半透明黑色背景 */
 }
+
 
 /* 调整背景层样式 */
 .login-form-container::before,

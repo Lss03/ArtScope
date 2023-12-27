@@ -27,7 +27,7 @@
                 <v-list-item-title>广场</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link>
+            <v-list-item link @click="$router.push('/ai')">
               <v-list-item-icon>
                 <v-icon>mdi-brush</v-icon>
               </v-list-item-icon>
@@ -35,7 +35,7 @@
                 <v-list-item-title>AI绘画</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="$router.push('/login1')">
+            <v-list-item link @click="$router.push('/login')">
               <v-list-item-icon>
                 <v-icon>mdi-login</v-icon>
               </v-list-item-icon>
@@ -43,7 +43,7 @@
                 <v-list-item-title>登录</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link>
+            <v-list-item link @click="$router.push('/MyPage')">
               <v-list-item-icon>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-icon>

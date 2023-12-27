@@ -1,11 +1,11 @@
 <template>
-  <div class="login-form-container" :class="{signup: showSignup}">
+  <div class="login-form-container" :class="{signup: isRegistering}">
     <div class="container">
-      <span></span>
-      <span></span>
-      <span></span>
-      <!-- 登录表单 -->
-      <form id="signinForm">
+        <span></span>
+        <span></span>
+        <span></span>
+      <!-- 使用 isRegistering 控制显示哪个表单 -->
+      <form id="signinForm" v-if="!isRegistering">
         <h2>Login</h2>
         <div class="inputBox">
           <input type="text" placeholder="Username" v-model="login.username">
@@ -21,9 +21,7 @@
           <input type="submit" value="Sign in" @click.prevent="signIn">
         </div>
       </form>
-
-      <!-- 注册表单 -->
-      <form id="signupForm" v-if="showSignup">
+      <form id="signupForm" v-else>
         <h2>Registration</h2>
         <div class="inputBox">
           <input type="text" placeholder="Username" v-model="register.username">
@@ -51,24 +49,29 @@
 <script>
 export default {
   name: 'LoginForm',
+  props: {
+    isRegistering: Boolean
+  },
   data() {
     return {
+      // 定义 showSignup 和 login 对象
       showSignup: false,
       login: {
         username: '',
         password: ''
       },
+      // 添加 register 对象定义
       register: {
         username: '',
         email: '',
         password: '',
         confirmPassword: ''
       }
-    }
+    };
   },
   methods: {
     toggleSignup() {
-      this.showSignup = !this.showSignup;
+      this.$emit('toggle-signup'); // 通知父组件切换状态
     },
     signIn() {
       // 登录逻辑
@@ -77,12 +80,10 @@ export default {
       // 注册逻辑
     }
   }
-}
+};
 </script>
 
 <style scoped>
-/* 以下是您提供的CSS代码，已经加上了scoped属性 */
 @import '@/assets/css/loginFormStyles.css';
+/* 其他样式 */
 </style>
-
-
