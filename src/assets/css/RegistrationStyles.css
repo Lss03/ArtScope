@@ -4,13 +4,14 @@
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 103px;
-    left: 308px;
+    top: 70px; /* 标题栏高度加上16px的留白 */
+    left: 256px; /* 与侧边栏接壤 */
     right: 0;
     bottom: 0;
     overflow: hidden;
     z-index: 1000;
     border-radius: 15px;
+    transition: 0.5s; /* 添加过渡动画 */
     background: rgba(0, 0, 0, 0.6); /* 添加半透明黑色背景 */
 }
 
@@ -20,7 +21,7 @@
     inset: 0;
     background: url('../image/bg2.jpg') no-repeat center center fixed;
     background-size: cover;
-    opacity: 0.5; /* 半透明背景图片 */
+
 }
 
 .register-form-container .container {
@@ -51,18 +52,10 @@
 
 /* 提交按钮样式 */
 .register-form-container input[type="submit"] {
-    background: #2196f3;
-    font-weight: 500;
-    cursor: pointer;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    color: white;
+    /* 与登录表单相同的提交按钮样式 */
 }
 
 /* 链接样式 */
 .register-form-container a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 0.85em;
+    /* 与登录表单相同的链接样式 */
 }

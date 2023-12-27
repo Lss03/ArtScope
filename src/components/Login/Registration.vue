@@ -32,6 +32,24 @@
 <script>
 export default {
   name: 'RegisterComponent',
+  data(){
+    return {
+      register: {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      }
+    }
+  },
+  methods: {
+    toggleSignup() {
+      this.$emit('toggleSignup');
+    },
+    signUp() {
+      // 注册逻辑
+    }
+  }
   // Vue 实例的数据和方法
 };
 </script>

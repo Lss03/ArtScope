@@ -33,24 +33,16 @@ export default {
       login: {
         username: '',
         password: ''
-      },
-      register: {
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
       }
+
     }
   },
   methods: {
     toggleSignup() {
-      this.showSignup = !this.showSignup;
+      this.$emit('toggleSignup');
     },
     signIn() {
       // 登录逻辑
-    },
-    signUp() {
-      // 注册逻辑
     }
   }
 };

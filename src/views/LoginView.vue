@@ -1,5 +1,4 @@
 <!-- LoginView.vue -->
-<!-- LoginView.vue -->
 <template>
   <v-container fluid>
     <!-- 模拟侧边栏宽度的容器 -->
@@ -10,10 +9,12 @@
 
       <v-col cols="12" md="9" style="overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none;">
         <!-- 标题栏 -->
-        <LoginHeader />
+        <LoginHeader v-if="!isRegistering" />
+        <RegisterHeader v-else/> <!-- 假设你有一个注册标题栏组件 -->
 
         <!-- 登录表单 -->
-        <LoginComponent />
+        <LoginComponent v-if="!isRegistering" @toggleSignup="toggleSignup" />
+        <RegisterComponent v-else @toggleSignup="toggleSignup" />
       </v-col>
     </v-row>
   </v-container>
@@ -23,11 +24,25 @@
 <script>
 import LoginComponent from '@/components/Login/Login.vue';
 import LoginHeader from '@/components/Login/LoginHeader.vue';
+import RegisterComponent from '@/components/Login/Registration.vue';
+import RegisterHeader from "@/components/Login/RegisterHeader.vue";
 export default {
   name: 'LoginView',
   components: {
     LoginHeader,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    RegisterHeader
+  },
+  data() {
+    return {
+      isRegistering: false
+    };
+  },
+  methods: {
+    toggleSignup() {
+      this.isRegistering = !this.isRegistering;
+    }
   }
 };
 </script>
