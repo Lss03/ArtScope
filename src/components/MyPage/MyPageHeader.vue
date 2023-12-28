@@ -1,8 +1,8 @@
 <template>
   <v-app-bar app :elevation="4" style="border-radius: 15px; background-color: white;" flat class="text-center">
     <!-- 左侧图片容器 -->
-    <div style="flex: 1; display: flex; justify-content: flex-start; padding-left: 16px;">
-      <img src="https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png" alt="Icon" style="height: 60px;">
+    <div style="flex: 1; display: flex; justify-content: flex-start; padding-left: 2px;">
+      <img src="@/assets/image/cat.png" alt="Icon" style="height: 60px;">
     </div>
 
     <!-- 标题文本 -->
