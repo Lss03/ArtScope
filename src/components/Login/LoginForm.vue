@@ -4,7 +4,7 @@
         <span></span>
         <span></span>
         <span></span>
-      <!-- 使用 isRegistering 控制显示哪个表单 -->
+      <!-- Toggle between login and registration form -->
       <form id="signinForm" v-if="!isRegistering">
         <h2>Login</h2>
         <div class="inputBox">
@@ -14,7 +14,7 @@
           <input type="password" placeholder="Password" v-model="login.password">
         </div>
         <div class="inputBox group">
-          <a href="#">Forgot Password</a>
+          <a href="#">Forgot Password?</a>
           <a href="#" @click="toggleSignup">Signup</a>
         </div>
         <div class="inputBox">
@@ -39,28 +39,23 @@
           <input type="submit" value="Register Account" @click.prevent="signUp">
         </div>
         <div class="inputBox group">
-          <a href="#" @click.prevent="toggleSignup">Already Have an Account ? <b>Login</b></a>
+          <a href="#" @click="toggleSignup">Already Have an Account ? <b>Login</b></a>
         </div>
       </form>
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'LoginForm',
-  props: {
-    isRegistering: Boolean
-  },
   data() {
     return {
-      // 定义 showSignup 和 login 对象
-      showSignup: false,
+      isRegistering: false,
+      users: [], // Simulating a user database
       login: {
         username: '',
         password: ''
       },
-      // 添加 register 对象定义
       register: {
         username: '',
         email: '',
@@ -71,19 +66,38 @@ export default {
   },
   methods: {
     toggleSignup() {
-      this.$emit('toggle-signup'); // 通知父组件切换状态
+      this.isRegistering = !this.isRegistering;
     },
     signIn() {
-      // 登录逻辑
+      const user = this.users.find(u => u.username === this.login.username && u.password === this.login.password);
+      if (user) {
+        this.$router.replace('/Mypage'); // Replace with actual route
+      } else {
+        alert('Invalid credentials or user does not exist.');
+      }
     },
     signUp() {
-      // 注册逻辑
+      const userExists = this.users.some(u => u.username === this.register.username);
+      if (userExists) {
+        alert("Username already exists");
+      } else if (this.register.username === '') {
+        alert("Username cannot be empty");
+      } else if (this.register.password !== this.register.confirmPassword) {
+        alert("Passwords do not match");
+      } else {
+        this.users.push({
+          username: this.register.username,
+          email: this.register.email,
+          password: this.register.password
+        });
+        alert("Registration successful");
+        this.toggleSignup();
+      }
     }
   }
 };
 </script>
-
 <style scoped>
 @import '@/assets/css/loginFormStyles.css';
-/* 其他样式 */
+/* Additional styles as needed */
 </style>
