@@ -59,9 +59,7 @@
       <v-col cols="12" md="9" class="pa-0">
         <!-- 右侧区域的顶部标题 -->
         <!-- 路由视图 -->
-        <v-container class="py-0 px-4 fill-height">
-          <router-view></router-view>
-        </v-container>
+        <router-view></router-view>
       </v-col>
     </v-row>
   </v-app>

@@ -1,32 +1,44 @@
 <template>
-  <v-container fluid>
-    <v-row no-gutters>
-      <v-col cols="12" md="3">
-        <!-- 模拟侧边栏宽度的容器 -->
-      </v-col>
-
-      <v-col cols="12" md="9">
-        <!-- Mypage 标题栏 -->
-        <MyPageHeader />
-
-        <!-- 占位区域 -->
-        <div>这里是 Mypage 内容的占位区域。</div>
-      </v-col>
-    </v-row>
+  <v-container class="my-container" fluid>
+<!--    <MyPageHeader />-->
+    <MyPageInfo/>
+    <v-divider/>
+    <div>
+      <v-btn-toggle v-model="currentComponent" mandatory >
+        <v-btn value="ShoppingCart">购物车</v-btn>
+        <v-btn value="RepositoryShow">仓库</v-btn>
+      </v-btn-toggle>
+    </div>
+    <component :is="currentComponent"></component>
   </v-container>
 </template>
 
 <script>
-import MyPageHeader from "@/components/MyPage/MyPageHeader.vue";
+// import MyPageHeader from "@/components/MyPage/MyPageHeader.vue";
+import MyPageInfo from "@/components/MyPage/MyPageInfo";
+import ShoppingCart from "@/components/MyPage/ShoppingCart";
+import RepositoryShow from "@/components/MyPage/RepositoryShow";
 
 export default {
   name: 'MypageView',
+  data: () => ({
+    currentComponent: "ShoppingCart",
+  }),
   components: {
-    MyPageHeader
+    MyPageInfo,
+    // MyPageHeader,
+    ShoppingCart,
+    RepositoryShow,
   }
 }
 </script>
 
 <style scoped>
 /* 您可以在这里添加样式 */
+.my-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 将子组件在垂直方向上对齐到容器的顶部 */
+  justify-content: flex-start; /* 将子组件在水平方向上对齐到容器的左侧 */
+}
 </style>
