@@ -15,6 +15,7 @@
             </v-list-item>
           </v-list>
           <v-divider></v-divider>
+          <!-- 导航链接 -->
           <v-list dense>
             <v-list-item link @click="$router.push('/')" class="white--text py-2">
               <v-list-item-icon>
@@ -54,9 +55,9 @@
       </v-col>
       <!-- 右侧内容区 -->
       <v-col cols="12" md="9" class="pa-0">
-        <v-container class="py-0 px-4 fill-height">
-          <router-view></router-view>
-        </v-container>
+        <!-- 右侧区域的顶部标题 -->
+        <!-- 路由视图 -->
+        <router-view></router-view>
       </v-col>
     </v-row>
   </v-app>
