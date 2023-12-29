@@ -6,12 +6,26 @@
       </v-col>
 
       <v-col cols="12" md="9">
-        <!-- Ai 标题栏 -->
-        <AiHeader />
+  <AiHeader />
 
-        <!-- 占位区域 -->
-        <div>这里是 Ai内容的占位区域。</div>
-      </v-col>
+  <!-- 对话内容容器 -->
+  <div class="chat-container">
+    <v-card
+      v-for="(message, index) in messages"
+      :key="index"
+      class="chat-message"
+    >
+      <v-card-text>{{ message.content }}</v-card-text>
+    </v-card>
+  </div>
+  <v-text-field
+  label="输入你的消息"
+  v-model="newMessage"
+  @keyup.enter="sendMessage"
+  outlined
+  clearable
+></v-text-field>
+</v-col>
     </v-row>
   </v-container>
 </template>
