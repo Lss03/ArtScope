@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import userInstance from "@/store/user";
+import userInstance from "@/store/modules/user";
 
 
 Vue.use(Vuex)
