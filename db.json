@@ -23,5 +23,61 @@
         "user_works": "0",
         "user_email": ""
       }
-    ]
+    ],
+  "images_sheet": [
+    {
+      "img_id": 1,
+      "img_name": "image1.jpg",
+      "img_data": "base64_encoded_image_data"
+    },
+    {
+      "img_id": 2,
+      "img_name": "image2.jpg",
+      "img_data": "base64_encoded_image2_data"
+    }
+  ],
+  "goods_sheet": [
+    {
+      "goods_id": 1,
+      "img_id": 1,
+      "goods_name": "goods1",
+      "goods_price": 100,
+      "good_owner_id": 1
+    },
+    {
+      "goods_id": 2,
+      "img_id": 1,
+      "goods_name": "goods2",
+      "goods_price": 101,
+      "good_owner_id": 2
+    }
+  ],
+  "shopping_carts_sheet": [
+    {
+      "user_id": 1,
+      "items": [
+        {
+          "goods_id": 2,
+          "add_time": ""
+        },
+        {
+          "goods_id": 1,
+          "add_time": ""
+        }
+      ]
+    },
+    {
+      "user_id": 1,
+      "items": [
+        {
+          "goods_id": 2,
+          "add_time": ""
+        },
+        {
+          "goods_id": 1,
+          "add_time": ""
+        }
+      ]
+    }
+  ]
 }
