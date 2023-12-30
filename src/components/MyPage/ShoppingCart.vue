@@ -44,11 +44,11 @@ export default {
   /*justify-content: center;*/
   padding-inline: 0;
   margin-inline: 0;
-  height: 500px;
+  height: auto;
 }
 .sticky-header-table {
   border-collapse: collapse;display: block;
-  max-height: 800px; /* 设置表格的最大高度，可根据需要调整 */
+  max-height: calc(100% - 20px); /* 设置表格的最大高度，可根据需要调整 */
   overflow-y: auto; /* 垂直滚动条 */
 }
 .items{
