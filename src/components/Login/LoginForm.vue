@@ -69,30 +69,51 @@ export default {
       this.isRegistering = !this.isRegistering;
     },
     signIn() {
-      const user = this.users.find(u => u.username === this.login.username && u.password === this.login.password);
-      if (user) {
-        this.$router.replace('/Mypage'); // Replace with actual route
-      } else {
-        alert('Invalid credentials or user does not exist.');
+  const user = this.users.find(u => u.username === this.login.username);
+  if (!user) {
+    alert('User does not exist.');
+    this.clearLoginForm();
+    return;
+  }
+  if (user.password === this.login.password) {
+    this.$router.replace('/Mypage'); // Navigate to user profile
+  } else {
+    alert('Username or Password is incorrect.');
+    this.clearLoginForm();
+  }
+},
+  clearLoginForm() {
+  this.login.username = '';
+  this.login.password = '';
+},
+signUp() {
+      if (!this.register.username || !this.register.email || !this.register.password) {
+        alert("Username, Email Address, and Password cannot be empty");
+        return;
       }
-    },
-    signUp() {
+      if (this.register.password !== this.register.confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
       const userExists = this.users.some(u => u.username === this.register.username);
       if (userExists) {
         alert("Username already exists");
-      } else if (this.register.username === '') {
-        alert("Username cannot be empty");
-      } else if (this.register.password !== this.register.confirmPassword) {
-        alert("Passwords do not match");
-      } else {
-        this.users.push({
-          username: this.register.username,
-          email: this.register.email,
-          password: this.register.password
-        });
-        alert("Registration successful");
-        this.toggleSignup();
+        this.clearRegistrationForm();
+        return;
       }
+      this.users.push({
+        username: this.register.username,
+        email: this.register.email,
+        password: this.register.password
+      });
+      alert("Registration successful");
+      this.toggleSignup();
+    },
+    clearRegistrationForm() {
+      this.register.username = '';
+      this.register.email = '';
+      this.register.password = '';
+      this.register.confirmPassword = '';
     }
   }
 };
