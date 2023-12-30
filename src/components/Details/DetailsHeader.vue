@@ -7,7 +7,7 @@
 
     <!-- 标题文本 -->
     <v-toolbar-title class="title" style="flex: 2; display: flex; justify-content: center;">
-      <span>在这里写详情内容</span>
+      <span>这里是图片详情页面</span>
     </v-toolbar-title>
 
     <!-- 右侧链接按钮容器 -->

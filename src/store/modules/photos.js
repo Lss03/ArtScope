@@ -11,6 +11,7 @@ const actions = {
             commit('setList', data);
         });
     }
+    
 };
 
 const mutations = {

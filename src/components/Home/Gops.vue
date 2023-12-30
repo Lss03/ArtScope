@@ -5,7 +5,7 @@
     <div class="photos-container">
       <v-row no-gutters>
         <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id" class="item">
-          <img class="item-img" v-if="index < 4" :src="photo.src" alt="" @click="handleButtonClick">
+          <img class="item-img" v-if="index < 4" :src="photo.src" alt="" @click="handleButtonClick(photo)">
         </v-col>
       </v-row>
     </div>
@@ -13,7 +13,7 @@
     <div class="photos-container">
       <v-row no-gutters>
         <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id">
-          <img class="item-img" v-if="(index >= 4)&(index <8)" :src="photo.src" alt="" @click="handleButtonClick">
+          <img class="item-img" v-if="(index >= 4)&(index <8)" :src="photo.src" alt="" @click="handleButtonClick(photo)">
         </v-col>
       </v-row>
 
@@ -22,7 +22,7 @@
     <div class="photos-container">
       <v-row no-gutters>
         <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id">
-          <img class="item-img" v-if="(index >=8 )&(index <12)" :src="photo.src" alt="" @click="handleButtonClick">
+          <img class="item-img" v-if="(index >=8 )&(index <12)" :src="photo.src" alt="" @click="handleButtonClick(photo)">
         </v-col>
       </v-row>
 
@@ -31,7 +31,7 @@
     <div class="photos-container">
       <v-row no-gutters>
         <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id">
-          <img class="item-img" v-if="(index >= 12)&(index <16)" :src="photo.src" alt="" @click="handleButtonClick">
+          <img class="item-img" v-if="(index >= 12)&(index <16)" :src="photo.src" alt="" @click="handleButtonClick(photo)">
         </v-col>
       </v-row>
 
@@ -100,8 +100,12 @@ export default {
   },
   //图片详情点击事件：
   methods: {
-    handleButtonClick() {
-      console.log('点击事件');
+    handleButtonClick(key) {
+      console.log(key)
+      this.$store.dispatch('xinxiInstance/getphoto',key);
+      this.$router.push('/details');
+      
+      
     }
   }
 
