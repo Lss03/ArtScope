@@ -1,10 +1,11 @@
 <template>
   <div class="carousel-container">
-    <v-carousel cycle>
+    <v-carousel cycle autoplay
+    :interval="2000"  >
       <v-carousel-item src="@/assets/image/p1.jpg" cover></v-carousel-item>
       <v-carousel-item src="@/assets/image/p2.jpg" cover></v-carousel-item>
       <v-carousel-item src="@/assets/image/p3.jpg" cover></v-carousel-item>
-      <v-carousel-item src="@/assets/image/p1.jpg" cover></v-carousel-item>
+      <v-carousel-item src="@/assets/image/p4.jpg" cover></v-carousel-item>
     </v-carousel>
   </div>
 </template>
