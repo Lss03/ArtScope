@@ -37,10 +37,24 @@ export default {
   name: 'AiView',
   components: {
     AiHeader
+  },
+  data() {
+    return {
+      messages: [], // 用于存储聊天消息的数组
+      newMessage: '' // 绑定到文本字段的字符串
+    };
+  },
+  methods: {
+    sendMessage() {
+      if (this.newMessage.trim()) {
+        this.messages.push({ content: this.newMessage });
+        this.newMessage = ''; // 清空输入框
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-/* 您可以在这里添加样式 */
+/* 您的样式代码 */
 </style>

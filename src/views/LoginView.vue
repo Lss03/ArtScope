@@ -6,11 +6,9 @@
       </v-col>
 
       <v-col cols="12" md="9">
-        <!-- 根据 isRegistering 显示相应的标题栏 -->
         <LoginHeader v-if="!isRegistering" />
         <RegisterHeader v-else />
 
-        <!-- 登录注册表单，传递 isRegistering 状态 -->
         <LoginForm :isRegistering="isRegistering" @toggle-signup="toggleSignup" />
       </v-col>
     </v-row>
@@ -41,3 +39,5 @@ export default {
   }
 };
 </script>
+
+<!-- Add any styles if necessary -->

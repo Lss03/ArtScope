@@ -48,9 +48,12 @@
 <script>
 export default {
   name: 'LoginForm',
+  props: {
+    // eslint-disable-next-line vue/require-prop-types
+    isRegistering: Boolean // 从父组件接收 isRegistering
+  },
   data() {
     return {
-      isRegistering: false,
       users: [], // Simulating a user database
       login: {
         username: '',
@@ -66,7 +69,7 @@ export default {
   },
   methods: {
     toggleSignup() {
-      this.isRegistering = !this.isRegistering;
+      this.$emit('toggle-signup');
     },
     signIn() {
   const user = this.users.find(u => u.username === this.login.username);
