@@ -1,16 +1,20 @@
 <template>
-  <v-container class="my-container" fluid>
+  <div>
     <MyPageHeader />
-    <MyPageInfo class="my-page-info"/>
-    <v-divider/>
-    <div>
-      <v-btn-toggle v-model="currentComponent" mandatory >
-        <v-btn value="ShoppingCart">购物车</v-btn>
-        <v-btn value="RepositoryShow">仓库</v-btn>
-      </v-btn-toggle>
+    <div class="my-container" >
+      <MyPageInfo class="my-page-info"/>
+      <v-divider></v-divider>
+      <v-tabs
+          color="deep-purple-accent-4"
+          align-tabs="center"
+          grow
+      >
+        <v-tab @click="changeComponent(1)" >购物车</v-tab>
+        <v-tab @click="changeComponent(2)">仓库</v-tab>
+      </v-tabs>
+      <component :is="currentComponent"></component>
     </div>
-    <component :is="currentComponent"></component>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -20,10 +24,20 @@ import ShoppingCart from "@/components/MyPage/ShoppingCart";
 import RepositoryShow from "@/components/MyPage/RepositoryShow";
 
 export default {
-  name: 'MypageView',
+  name: 'MyPageView',
   data: () => ({
-    currentComponent: "ShoppingCart",
+    currentComponent: 'ShoppingCart',
   }),
+  methods: {
+    changeComponent(value) {
+      if (value === 1) {
+        this.currentComponent = 'ShoppingCart'
+      } else if (value === 2) {
+        this.currentComponent = 'RepositoryShow'
+      }
+    }
+  },
+
   components: {
     MyPageInfo,
     MyPageHeader,
@@ -36,13 +50,11 @@ export default {
 <style scoped>
 /* 您可以在这里添加样式 */
 .my-container {
-  position: fixed;
-  top: 70px; /* 标题栏高度加上留白 */
-  left: 256px; /* 与侧边栏接壤 */
-  right: 0;
-  bottom: 0;
-  overflow: auto;
-  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 将子组件在垂直方向上对齐到容器的顶部 */
+  justify-content: flex-start; /* 将子组件在水平方向上对齐到容器的左侧 */
+  margin-inline: 10px;
 }
 .my-page-info {
   border-radius: 15px; /* 添加圆角 */
