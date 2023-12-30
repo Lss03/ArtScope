@@ -11,6 +11,8 @@
     <!-- 图片区域 -->
     <div class="image-section">
       <span class="section-title">精美图片</span>
+      <br>
+      
       <Gops />
     </div>
   </div>
@@ -58,4 +60,5 @@ export default {
   font-size: 24px;
   margin-bottom: 16px;
 }
+
 </style>
