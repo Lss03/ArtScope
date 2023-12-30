@@ -45,7 +45,6 @@ export default {
   padding-inline: 0;
   margin-inline: 0;
   height: 500px;
-  overflow-y: auto;
 }
 .sticky-header-table {
   border-collapse: collapse;display: block;
