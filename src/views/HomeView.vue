@@ -56,9 +56,6 @@ export default {
   margin-right: 8px;
 }
 
-.section-title {
-  font-size: 24px;
-  margin-bottom: 16px;
-}
+
 
 </style>
