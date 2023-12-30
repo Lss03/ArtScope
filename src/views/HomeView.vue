@@ -56,6 +56,11 @@ export default {
   margin-right: 8px;
 }
 
-
-
+.section-title{
+font-weight: bold;
+font-family: SimSun, "宋体", sans-serif;
+padding: 0;
+font-size: 28px;
+margin-bottom: 8px;
+}
 </style>
