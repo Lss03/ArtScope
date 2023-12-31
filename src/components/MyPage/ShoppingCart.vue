@@ -28,6 +28,9 @@ import {mapState} from "vuex";
 
 export default {
   name: "ShoppingCart",
+  mounted() {
+    this.$store.dispatch("cartInstance/fetchCartList");
+  },
   computed: {
     ...mapState({
       items: (state) => state.cartInstance.items

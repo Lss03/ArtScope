@@ -1,28 +1,27 @@
 <template>
   <v-container fluid>
-    <v-row no-gutters>
-      <v-col cols="12" md="3">
-        <!-- 模拟侧边栏宽度的容器 -->
-      </v-col>
-
-      <v-col cols="12" md="9">
+      <div>
+          <DetailsHeader/>
+      </div>
         <!-- Detail标题栏 -->
-        <DetailsHeader />
-
+       
+      <div>
+        <photodetail></photodetail>
+      </div>
         <!-- 占位区域 -->
-        <div>这里是 Details 内容的占位区域。</div>
-      </v-col>
-    </v-row>
+        
   </v-container>
 </template>
 
 <script>
 import DetailsHeader from "@/components/Details/DetailsHeader.vue";
+import photodetail from "@/components/Details/photodetail.vue";
 
 export default {
   name: 'DetailsView',
   components: {
-    DetailsHeader
+    DetailsHeader,
+    photodetail
   }
 }
 </script>

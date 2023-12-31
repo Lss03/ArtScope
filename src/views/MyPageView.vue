@@ -22,6 +22,7 @@ import MyPageHeader from "@/components/MyPage/MyPageHeader.vue";
 import MyPageInfo from "@/components/MyPage/MyPageInfo";
 import ShoppingCart from "@/components/MyPage/ShoppingCart";
 import RepositoryShow from "@/components/MyPage/RepositoryShow";
+import {mapState} from "vuex";
 
 export default {
   name: 'MyPageView',
@@ -36,6 +37,14 @@ export default {
         this.currentComponent = 'RepositoryShow'
       }
     }
+  },
+  computed: {
+    ...mapState({
+      items: (state) => state.userInstance.userInfo,
+    })
+  },
+  mounted() {
+    this.$store.dispatch("userInstance/fetchUserInfo");
   },
 
   components: {
