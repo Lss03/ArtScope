@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+.login-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 70px; /* 标题栏高度加上16px的留白 */
+    left: 256px; /* 与侧边栏接壤 */
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 1000;
+    border-radius: 15px;
+    transition: 0.5s; /* 添加过渡动画 */
+    background: rgba(0, 0, 0, 0.6); /* 添加半透明黑色背景 */
+}
+
+
+/* 调整背景层样式 */
+.login-form-container::before,
+.login-form-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    transition: 0.5s;
+}
+
+.login-form-container::before {
+    background: url(../image/bg1.jpg);
+}
+
+.login-form-container::after {
+    background: url(../image/bg2.jpg);
+    opacity: 0;
+}
+
+.login-form-container.signup::after {
+    opacity: 1;
+}
+
+/* 调整表单容器样式 */
+.login-form-container .container {
+    position: relative;
+    width: 350px;
+    height: 340px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: 0.5s;
+    overflow: hidden;
+    margin-top: 80px; /* 下移动，值为标题栏的高度，确保不被覆盖 */
+}
+
+.login-form-container.signup .container {
+    height: 440px;
+}
+
+.login-form-container .container::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: repeating-conic-gradient(from var(--a), #45f3ff 0%, #45f3ff 10%, transparent 10%, transparent 80%, #45f3ff 100%);
+    border-radius: 20px;
+    animation: animate 2.5s linear infinite;
+}
+
+.login-form-container.signup .container::before {
+    filter: hue-rotate(140deg);
+}
+
+@property --a {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@keyframes animate {
+    0% {
+        --a: 0deg;
+    }
+    100% {
+        --a: 360deg;
+    }
+}
+
+.login-form-container .container span {
+    position: absolute;
+    inset: 5px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.login-form-container .container span::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background: url(../image/bg1.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+}
+
+.login-form-container .container span::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background: url(../image/bg1.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px);
+}
+
+.login-form-container.signup .container span::before,
+.login-form-container.signup .container span::after {
+    background: url(../image/bg2.jpg);
+    filter: blur(15px);
+}
+/* 调整表单样式 */
+.login-form-container form {
+    position: absolute;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    transition: 0.5s;
+}
+
+.login-form-container form#signupForm {
+    left: 100%;
+}
+
+.login-form-container.signup form#signinForm {
+    left: -100%;
+}
+
+.login-form-container.signup form#signupForm {
+    left: 0;
+}
+
+.login-form-container form h2 {
+    position: relative;
+    color: #fff;
+    font-size: 1.5em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.login-form-container form .inputBox {
+    position: relative;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-form-container form .inputBox a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85em;
+}
+
+.login-form-container form .inputBox a:nth-child(2) {
+    text-decoration: underline;
+}
+
+.login-form-container form .inputBox input {
+    width: 100%;
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(0,0,0,0.15);
+    padding: 6px 15px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: #fff;
+}
+
+.login-form-container form .inputBox input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.login-form-container form .inputBox input[type="submit"] {
+    background: #2196f3;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.login-form-container form#signupForm .inputBox input[type="submit"] {
+    background: #f4242f;
+}
+
+.login-form-container form#signupForm b {
+    font-weight: 500;
+    color: #ffeb3b;
+    text-decoration: underline;
+}
