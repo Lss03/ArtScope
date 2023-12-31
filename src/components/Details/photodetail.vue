@@ -13,7 +13,7 @@
             </div>
             <div class="pjorprice">
                 <span class="f">{{this.$data.price}}</span>
-            </div>
+            </div>    
         </div>
        </div>
    

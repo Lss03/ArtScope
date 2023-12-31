@@ -5,7 +5,7 @@
       <div class="photos-container">
         <v-row no-gutters>
           <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id" class="item">
-            <img class="item-img" v-if="index < 4" :src="photo.src" alt="" @click="handleButtonClick">
+            <img class="item-img" v-if="index < 4" :src="photo.src" alt="" @click="handleButtonClick(photo)">
           </v-col>
         </v-row>
       </div>
