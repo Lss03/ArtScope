@@ -7,9 +7,5 @@ let repoList = [
 export default {
     getRepoList (callback) {
         setTimeout(() => callback(repoList), 100)
-    },
-    updateResList (newRepoList, callback) {
-        repoList = newRepoList;
-        setTimeout(() => callback(repoList), 100)
     }
 }

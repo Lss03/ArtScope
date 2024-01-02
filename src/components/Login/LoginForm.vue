@@ -1,9 +1,9 @@
 <template>
   <div class="login-form-container" :class="{signup: isRegistering}">
     <div class="container">
-        <span></span>
-        <span></span>
-        <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
       <!-- Toggle between login and registration form -->
       <form id="signinForm" v-if="!isRegistering">
         <h2>Login</h2>
@@ -71,46 +71,49 @@ export default {
     toggleSignup() {
       this.$emit('toggle-signup');
     },
-    signIn() {
-  const user = this.users.find(u => u.username === this.login.username);
-  if (!user) {
-    alert('User does not exist.');
-    this.clearLoginForm();
-    return;
-  }
-  if (user.password === this.login.password) {
-    this.$router.replace('/Mypage'); // Navigate to user profile
-  } else {
-    alert('Username or Password is incorrect.');
-    this.clearLoginForm();
-  }
-},
-  clearLoginForm() {
-  this.login.username = '';
-  this.login.password = '';
-},
-signUp() {
-      if (!this.register.username || !this.register.email || !this.register.password) {
-        alert("Username, Email Address, and Password cannot be empty");
-        return;
+    async signIn() {
+      try {
+        await this.$router.push('/Mypage');
+        await this.$store.dispatch('userInstance/login', this.login); //
+        localStorage.setItem('username', this.login.username); // 存储用户名
+
+      } catch (error) {
+        alert('Login failed. Please check your username and password.');
       }
+    },
+    clearLoginForm() {
+      this.login.username = '';
+      this.login.password = '';
+    },
+    async signUp() {
       if (this.register.password !== this.register.confirmPassword) {
         alert("Passwords do not match");
         return;
       }
-      const userExists = this.users.some(u => u.username === this.register.username);
-      if (userExists) {
-        alert("Username already exists");
-        this.clearRegistrationForm();
-        return;
+
+      try {
+        const response = await fetch('http://localhost:5000/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.register.username,
+            email: this.register.email,
+            password: this.register.password
+          })
+        });
+        const data = await response.json();
+        if (data.success) {
+          alert("Registration successful");
+          this.toggleSignup();
+        } else {
+          alert("Registration failed");
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        alert('An error occurred while registering.');
       }
-      this.users.push({
-        username: this.register.username,
-        email: this.register.email,
-        password: this.register.password
-      });
-      alert("Registration successful");
-      this.toggleSignup();
     },
     clearRegistrationForm() {
       this.register.username = '';

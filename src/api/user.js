@@ -13,17 +13,7 @@ let userData = {
 
 export default {
     // 获取用户信息
-    getUserInfo(callback) {
-        setTimeout(() => callback(userData), 100);
-    },
-
-    // 更新用户信息
-    updateUserInfo(newUserInfo, callback) {
-        setTimeout(() => {
-            userData = {...userData, ...newUserInfo};
-            callback(userData);
-        }, 100);
-    },
+// 更新用户信息
     addImage(imageData, callback) {
         setTimeout(() => {
           userData.images.push(imageData); // Push the new image data to the array

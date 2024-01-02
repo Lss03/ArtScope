@@ -36,8 +36,4 @@ export default {
     getCartList(callback) {
         setTimeout(() => callback(cartList), 100)
     },
-    updateCartList(newCartList, callback) {
-        cartList = newCartList;
-        setTimeout(() => callback(cartList), 100)
-    },
 }
