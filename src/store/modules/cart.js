@@ -13,6 +13,11 @@ export default {
         },
         addToCart(state, item) {
             state.items.push(item);
+        },
+        //根据img_id删除购物车中的商品
+        removeCartItemByI_id(state, id) {
+            const index = state.items.findIndex(item => item.img_id === id);
+            state.items.splice(index, 1);
         }
     },
     actions: {
@@ -29,7 +34,7 @@ export default {
                 if (photo) {
                     const newItem = {
                         goods_id: photo.id,
-                        img_id: photo.img_id,
+                        img_id: photo.id,
                         goods_name: photo.zuozhe, // 图片作者作为商品名称
                         goods_price: photo.price,
                         add_time: formatApi.dateNow(), // 当前时间
@@ -37,6 +42,15 @@ export default {
                     commit('addToCart', newItem);
                 }
             });
+        },
+        removePhotoFromCart({ commit }, id) {
+            commit('removeCartItemByI_id', id);
+        }
+    },
+    //使用getter，根据id获取商品信息
+    getters: {
+        getCartItemById: state => id => {
+            return state.items.find(item => item.goods_id === id);
         }
     }
 };

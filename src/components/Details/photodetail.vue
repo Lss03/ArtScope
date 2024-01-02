@@ -36,7 +36,7 @@
                 @click="addToCart"
                 class="mt-3"
             >
-              加入购物车
+              {{ cartButtonText}}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -65,6 +65,16 @@ export default {
       flag: 0,
     }
   },
+  computed: {
+    //判断是否在购物车中
+    inCart() {
+      return this.$store.getters['cartInstance/getCartItemById'](this.xinxi.id);
+    },
+    //加入购物车按钮的文本
+    cartButtonText() {
+      return this.inCart ? '从购物车移除' : '加入购物车';
+    }
+  },
   methods: {
     add() {
       const action = this.flag === 0 ? "addlike" : "dellike";
@@ -72,7 +82,8 @@ export default {
       this.flag = this.flag === 0 ? 1 : 0;
     },
     addToCart() {
-      this.$store.dispatch('cartInstance/addPhotoToCart', this.xinxi.id);
+      const action = this.inCart ? 'removePhotoFromCart' : 'addPhotoToCart';
+      this.$store.dispatch(`cartInstance/${action}`, this.xinxi.id);
     }
   }
 }
