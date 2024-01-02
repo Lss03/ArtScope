@@ -30,10 +30,18 @@
     <!-- 输入区域 -->
     <v-row>
       <v-col cols="12" class="d-flex justify-end align-center input-button-container">
-        <v-file-input v-model="imageFile" prepend-icon="mdi-camera" label="上传图片" filled></v-file-input>
+        <v-file-input v-model="imageFile" prepend-icon="mdi-camera" label="上传图片" filled> 
+        </v-file-input>
         <v-btn class="ml-2" color="success" @click="sendImageToAI">发送</v-btn>
+       
       </v-col>
     </v-row>
+<!-- 发送按钮 -->
+    <span class="but">
+       
+        
+     
+    </span>
 
     <!-- 保存确认对话框 -->
     <v-dialog v-model="showConfirmationDialog" max-width="400">
@@ -49,6 +57,33 @@
     </v-dialog>
   </v-container>
 </template>
+
+
+<style scoped>
+
+
+
+  .pa-0{
+    margin: 0;
+    padding: 0;
+  }
+
+.chat-container{
+  margin: 0;
+    padding: 0;
+}
+.row{
+  margin: 0px;
+}
+.col-12{
+  padding: 8px;
+  /* padding-bottom: 0px; */
+}
+.but{
+  padding-left: 93.5%;
+}
+
+</style>
 
 <script>
 export default {
