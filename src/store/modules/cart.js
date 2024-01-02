@@ -47,10 +47,10 @@ export default {
             commit('removeCartItemByI_id', id);
         }
     },
-    //使用getter，根据id获取商品信息
+    //使用getter，根据img_id获取商品信息
     getters: {
         getCartItemById: state => id => {
-            return state.items.find(item => item.goods_id === id);
+            return state.items.find(item => item.img_id === id);
         }
     }
 };
