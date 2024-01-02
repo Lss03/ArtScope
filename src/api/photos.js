@@ -1,4 +1,4 @@
-let photo = [
+let photos = [
   { 'id': 1, 'zuozhe': '明', 'like':58,'price': 59, 'xiangqing':'雾气缭绕的山谷中的梯田，金黄色的油菜花与绿色植被交织。阳光穿透云层，给部分田野和远山投下光影。中间的村庄与自然景观和谐共存，呈现一种宁静的田园风光。',src: require('@/assets/image/p5.jpg') },
   { 'id': 2, 'zuozhe': '李兰',  'like':20,'price': 25,'xiangqing':'清晨的湖面上，一座教堂和周围建筑在宁静的湖水中映出倒影，背后群山和薄雾营造出一种宁静神秘的氛围。天空和水面呈现出渐变的晨光色彩，给这幅画面增添了宁静而梦幻的美感。', src: require('@/assets/image/p6.jpg') },
   { 'id': 3, 'zuozhe': '刘艳',  'like':200,'price': 56,'xiangqing':'阳光透过树林的缝隙洒在安静的林荫道上，形成了光影交错的效果。这条由高大树木排列两旁的道路，带来了一种平和与宁静的感觉，似乎邀请人们漫步其中，享受清新的空气和自然之美。',src: require('@/assets/image/p7.jpg') },
@@ -19,6 +19,6 @@ let photo = [
 
 export default {
   getPhotosList (callback) {
-    setTimeout(() => callback(photo), 100)
+    setTimeout(() => callback(photos), 100)
   }
 }

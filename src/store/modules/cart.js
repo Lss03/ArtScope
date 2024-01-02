@@ -1,5 +1,6 @@
 import cartApi from "@/api/cart";
-import xinxiApi from "@/store/modules/xinxi"; // 假定这是图片详情的 API
+import photoApi from "@/api/photos"; // 假定这是图片详情的 API
+import formatApi from "@/utils/Formate";
 
 export default {
     namespaced: true,
@@ -23,7 +24,7 @@ export default {
         // eslint-disable-next-line no-unused-vars
         addPhotoToCart({ commit, state }, photoId) {
             // 获取照片详情
-            xinxiApi.getPhotosList(photos => {
+            photoApi.getPhotosList(photos => {
                 const photo = photos.find(p => p.id === photoId);
                 if (photo) {
                     const newItem = {
@@ -31,7 +32,7 @@ export default {
                         img_id: photo.img_id,
                         goods_name: photo.zuozhe, // 图片作者作为商品名称
                         goods_price: photo.price,
-                        add_time: new Date().toISOString() // 当前时间
+                        add_time: formatApi.dateNow(), // 当前时间
                     };
                     commit('addToCart', newItem);
                 }

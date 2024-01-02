@@ -72,7 +72,7 @@ export default {
       this.flag = this.flag === 0 ? 1 : 0;
     },
     addToCart() {
-      this.$store.dispatch('cart/addPhotoToCart', this.xinxi.id);
+      this.$store.dispatch('cartInstance/addPhotoToCart', this.xinxi.id);
     }
   }
 }
