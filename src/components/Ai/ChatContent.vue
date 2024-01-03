@@ -10,19 +10,26 @@
               <img :src="aiAvatar" alt="AI" />
             </v-avatar>
             <v-card class="message-ai message-card">
-              <v-card-text>给我一张图片，我会返回给你一张风格变换后的图片。</v-card-text>
+              <v-card-text>请输入一段文本，我会根据文本内容生成一张图片。</v-card-text>
             </v-card>
           </div>
           <!-- 用户和AI的消息 -->
           <div v-for="(message, index) in messages" :key="index" class="message-wrapper">
             <v-avatar :color="message.sender === 'user' ? 'blue' : 'green'" class="ma-2">
-              <img :src="message.avatar" alt="message.sender" />
+              <img :src="message.sender === 'user' ? userAvatar : aiAvatar" alt="message.sender" />
             </v-avatar>
+            <!-- 显示文本消息 -->
+            <v-card v-if="message.text" :class="`message-${message.sender} message-card`">
+              <v-card-text>{{ message.text }}</v-card-text>
+            </v-card>
             <!-- 显示图片消息 -->
             <div v-if="message.image" class="image-wrapper">
-              <img :src="message.image" alt="Image" class="message-image" />
+              <img :src="message.image" alt="Generated Image" class="message-image" />
             </div>
           </div>
+
+          <!-- 显示生成的图片 -->
+          <v-img v-if="saveImageData" :src="saveImageData" alt="Generated Image" class="generated-image"></v-img>
         </div>
       </v-col>
     </v-row>
@@ -30,18 +37,10 @@
     <!-- 输入区域 -->
     <v-row>
       <v-col cols="12" class="d-flex justify-end align-center input-button-container">
-        <v-file-input v-model="imageFile" prepend-icon="mdi-camera" label="上传图片" filled> 
-        </v-file-input>
-        <v-btn class="ml-2" color="success" @click="sendImageToAI">发送</v-btn>
-       
+        <v-text-field v-model="textPrompt" label="输入文本" filled></v-text-field>
+        <v-btn class="ml-2" color="success" @click="sendTextToAI">发送</v-btn>
       </v-col>
     </v-row>
-<!-- 发送按钮 -->
-    <span class="but">
-       
-        
-     
-    </span>
 
     <!-- 保存确认对话框 -->
     <v-dialog v-model="showConfirmationDialog" max-width="400">
@@ -58,73 +57,61 @@
   </v-container>
 </template>
 
-
-<style scoped>
-
-
-
-  .pa-0{
-    margin: 0;
-    padding: 0;
-  }
-
-.chat-container{
-  margin: 0;
-    padding: 0;
-}
-.row{
-  margin: 0px;
-}
-.col-12{
-  padding: 8px;
-  /* padding-bottom: 0px; */
-}
-.but{
-  padding-left: 93.5%;
-}
-
-</style>
-
+>
 <script>
 export default {
   name: 'ChatContent',
   data() {
     return {
       messages: [],
-      aiAvatar: "AI的头像路径",
-      userAvatar: "用户的头像路径",
-      imageFile: null,
+      aiAvatar: 'https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png', // AI头像路径
+      userAvatar: 'https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png', // 用户头像路径
+      textPrompt: '', // 用户输入的文本
       saveImageData: null,
       showConfirmationDialog: false,
     };
   },
   methods: {
-    sendImageToAI() {
-      if (this.imageFile) {
-        const imageUrl = URL.createObjectURL(this.imageFile);
-        // 用户发送图片消息
+    sendTextToAI() {
+      if (this.textPrompt) {
         this.messages.push({
-          image: imageUrl,
+          text: this.textPrompt,
           sender: 'user',
           avatar: this.userAvatar,
         });
-        // 通知图片状态管理代码处理图片
-        this.processImage(imageUrl);
+        this.processText(this.textPrompt);
+        this.textPrompt = ''; // 清空输入框
       }
     },
-    processImage(imageUrl) {
-      // 假设这里是与后端通信的代码
-      // 以及接收处理后的图片并显示给用户的逻辑
-      setTimeout(() => {
-        // 这里的 imageUrl 是处理后的图片的 URL
-        this.messages.push({
-          image: imageUrl, // 假设后端返回了新的图片URL
-          sender: 'ai',
-          avatar: this.aiAvatar,
-        });
-        // 显示保存图片的对话框
-        this.promptSaveImage(imageUrl);
-      }, 2000); // 假设处理图片需要 2 秒钟
+    processText(text) {
+      let body = JSON.stringify({ prompt: text });
+
+      fetch('http://127.0.0.1:5000/generate-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body
+      })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.blob();
+          })
+          .then(data => {
+            const generatedImageUrl = URL.createObjectURL(data);
+            this.messages.push({
+              image: generatedImageUrl,
+              sender: 'ai',
+              avatar: this.aiAvatar,
+            });
+            this.saveImageData = generatedImageUrl;
+            this.promptSaveImage(generatedImageUrl);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
     },
     promptSaveImage(imageUrl) {
       this.saveImageData = imageUrl;
@@ -135,9 +122,16 @@ export default {
       this.showConfirmationDialog = false;
     },
     saveImageToUserData() {
-      // 这里将图片保存到用户数据中
-      // 假设有一个API模块处理用户数据的保存
-      console.log("Saved image:", this.saveImageData);
+      // 添加保存图像到本地的逻辑
+      // 例如，您可以创建一个 <a> 标签并模拟点击以下载图像
+      const a = document.createElement('a');
+      a.href = this.saveImageData;
+      a.download = 'generated_image.jpg';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
       this.showConfirmationDialog = false;
     },
   },

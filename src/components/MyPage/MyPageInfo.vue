@@ -21,7 +21,7 @@ export default {
       user: state => state.userInstance.userInfo
     }),
     safeUser() {
-      return this.user || { name: '', likes: 0, fans: 0 }; // 默认值
+      return { name: '士态炎凉', likes: 10, fans: 50 }; // 默认值
     }
   },
   mounted() {

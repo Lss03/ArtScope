@@ -6,7 +6,7 @@
     </div>
     <!-- 标题文本 -->
     <v-toolbar-title class="title" style="flex: 2; display: flex; justify-content: center;">
-      <span>晚来天欲雪 能饮一杯无</span>
+      <span>晚来天欲雪，能饮一杯无</span>
     </v-toolbar-title>
 
     <!-- 右侧链接按钮容器 -->
