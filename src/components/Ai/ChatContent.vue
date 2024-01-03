@@ -7,7 +7,7 @@
           <!-- 初始提示信息 -->
           <div class="message-wrapper">
             <v-avatar color="green" class="ma-2">
-              <img :src="aiAvatar" alt="AI" />
+              <img :src=aiAvatar alt="AI" />
             </v-avatar>
             <v-card class="message-ai message-card">
               <v-card-text>给我一张图片，我会返回给你一张风格变换后的图片。</v-card-text>
@@ -16,7 +16,7 @@
           <!-- 用户和AI的消息 -->
           <div v-for="(message, index) in messages" :key="index" class="message-wrapper">
             <v-avatar :color="message.sender === 'user' ? 'blue' : 'green'" class="ma-2">
-              <img :src="message.avatar" alt="message.sender" />
+              <img :src="message.sender === 'user' ? userAvatar : aiAvatar" alt="message.sender" />
             </v-avatar>
             <!-- 显示图片消息 -->
             <div v-if="message.image" class="image-wrapper">
@@ -30,17 +30,17 @@
     <!-- 输入区域 -->
     <v-row>
       <v-col cols="12" class="d-flex justify-end align-center input-button-container">
-        <v-file-input v-model="imageFile" prepend-icon="mdi-camera" label="上传图片" filled> 
+        <v-file-input v-model="imageFile" prepend-icon="mdi-camera" label="上传图片" filled>
         </v-file-input>
         <v-btn class="ml-2" color="success" @click="sendImageToAI">发送</v-btn>
-       
+
       </v-col>
     </v-row>
 <!-- 发送按钮 -->
     <span class="but">
-       
-        
-     
+
+
+
     </span>
 
     <!-- 保存确认对话框 -->
@@ -91,7 +91,8 @@ export default {
   data() {
     return {
       messages: [],
-      aiAvatar: "AI的头像路径",
+      // 加上具体的图片
+      aiAvatar:'@/assets/image/cat.png',
       userAvatar: "用户的头像路径",
       imageFile: null,
       saveImageData: null,

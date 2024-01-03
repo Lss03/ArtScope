@@ -4,10 +4,10 @@
       <v-list>
         <v-list-item>
           <v-list-item-avatar>
-            <img src="./assets/logo.svg" alt="用户头像">
+            <img src="./assets/image/cat.png" alt="用户头像">
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="white--text">神秘人</v-list-item-title>
+            <v-list-item-title class="white--text">士态炎凉</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

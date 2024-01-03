@@ -17,25 +17,17 @@
           </v-avatar>
           <span>{{ xinxi.zuozhe }}</span>
         </div>
-        <v-card
-            elevation="2"
-            class="info-card"
-        >
+        <v-card elevation="2" class="info-card">
           <v-card-text>
-            <v-icon
-                large
-                @click="add"
-                :color="flag > 0 ? 'amber' : 'grey'"
-            >
+            <v-icon large @click="add" :color="flag > 0 ? 'amber' : 'grey'">
               mdi-star-outline
             </v-icon>
             <span class="likes">{{ xinxi.like }}</span>
-            <div class="price">{{ xinxi.price }} 元</div>
-            <v-btn
-                color="primary"
-                @click="addToCart"
-                class="mt-3"
-            >
+            <div class="price">
+              <v-icon small>mdi-currency-usd</v-icon>
+              {{ xinxi.price }} 元
+            </div>
+            <v-btn color="primary" @click="addToCart" class="mt-3">
               {{ cartButtonText}}
             </v-btn>
           </v-card-text>
@@ -51,6 +43,33 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- 评论区域 -->
+    <v-row class="mt-4">
+      <v-col cols="12">
+        <v-card elevation="2" class="comments-card">
+          <v-card-title>评论</v-card-title>
+          <v-card-text>
+            <div v-for="comment in comments" :key="comment.id" class="comment">
+              <v-avatar size="32" class="mr-2">
+                <img :src="comment.avatar">
+              </v-avatar>
+              <span><strong>{{ comment.author }}</strong>: {{ comment.text }}</span>
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-text-field
+                label="添加评论"
+                v-model="newComment"
+                outlined
+                dense
+                class="flex-grow-1"
+            ></v-text-field>
+            <v-btn color="primary" @click="submitComment">提交</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -63,6 +82,8 @@ export default {
     return {
       xinxi: xinxi.state.pxinxi,
       flag: 0,
+      comments: [], // 存储评论的数组
+      newComment: '', // 绑定到输入框的新评论文本
     }
   },
   computed: {
@@ -84,6 +105,19 @@ export default {
     addToCart() {
       const action = this.inCart ? 'removePhotoFromCart' : 'addPhotoToCart';
       this.$store.dispatch(`cartInstance/${action}`, this.xinxi.id);
+    }
+  },
+  submitComment() {
+    if (this.newComment.trim()) {
+      const comment = {
+        id: Date.now(), // 假设评论 ID
+        author: '用户名', // 这里应根据实际用户数据设置
+        text: this.newComment,
+        avatar: '用户头像路径', // 这里应根据实际用户数据设置
+      };
+      this.comments.push(comment);
+      this.newComment = '';
+      // 这里您可以添加代码来将评论发送到后端
     }
   }
 }
@@ -110,7 +144,22 @@ export default {
 }
 
 .price {
+  display: flex;
+  align-items: center;
   font-size: 1.2em;
   margin-top: 10px;
+}
+
+.v-icon {
+  margin-right: 5px;
+}
+.comments-card {
+  border-radius: 15px;
+}
+
+.comment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
 </style>
