@@ -112,7 +112,7 @@ export default {
   //图片详情点击事件：
   methods: {
     handleButtonClick(key) {
-      console.log(key)
+      console.log()
       this.$store.dispatch('xinxiInstance/getphoto',key);
       this.$router.push('/details');
 

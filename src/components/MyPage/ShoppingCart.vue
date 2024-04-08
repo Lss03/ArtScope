@@ -1,22 +1,26 @@
 <template >
-  <div class="container">
-    <table class="sticky-header-table">
-      <tr class="items">
-        <th >序号</th>
-        <th >作品名称</th>
-        <th >图片地址</th>
-        <th >加入购物车时间</th>
-        <th >商品价格</th>
-      </tr>
-      <tr v-for="item in items" :key="item.id" class="items">
-        <td>{{ item.id }}</td>
-        <td>{{ item.src }}</td>
-        <td>{{ item.zuozhe }}</td>
-        <td>2024.1.1</td> <!-- 如果这个日期是静态的，可以保留这样的格式 -->
-        <td>{{ item.price }}￥</td>
-      </tr>
-    </table>
-  </div>
+<div class="container">
+  <table class="sticky-header-table">
+    <tr class="items">
+      <td>序号</td>
+      <td>作品名称</td>
+      <td></td>
+      <td>加入购物车时间</td>
+      <td>商品价格</td>
+    </tr>
+    <tr
+        v-for="(item,index) in items"
+        :key="index"
+        class="items"
+    >
+      <td>{{index}}</td>
+      <td>{{item.goods_name}}</td>
+      <td></td>
+      <td>{{item.add_time}}</td>
+      <td>{{item.goods_price}}￥</td>
+    </tr>
+  </table>
+</div>
 </template>
 
 <script>
@@ -24,7 +28,9 @@ import {mapState} from "vuex";
 
 export default {
   name: "ShoppingCart",
-
+  mounted() {
+    this.$store.dispatch("cartInstance/fetchCartList");
+  },
   computed: {
     ...mapState({
       items: (state) => state.cartInstance.items
@@ -60,15 +66,5 @@ td{
   flex: 1;
   text-align: center;
   line-height: 50px;
-}
-th{
-  width: 250px;
-}
-td{
-  
-  background-color: #f9f9f9; /* 每行的背景颜色 */
-  color: #333; /* 文本颜色 */
-  transition: background-color 0.3s; /* 背景色渐变动画 */
-
 }
 </style>

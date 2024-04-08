@@ -11,7 +11,7 @@ const actions={
        getphoto({commit},key)
        {
         commit("getlist",key)
-   }
+    }
 }
 export default {
     namespaced:true,

@@ -1,159 +1,56 @@
+import cartApi from "@/api/cart";
+import photoApi from "@/api/photos"; // 假定这是图片详情的 API
+import formatApi from "@/utils/Formate";
 
-   const state={
-        items: [
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 2,
-            //     "img_id": 1,
-            //     "goods_name": "goods2",
-            //     "goods_price": 101,
-            //     "good_owner_id": 2,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-            // {
-            //     "goods_id": 1,
-            //     "img_id": 1,
-            //     "goods_name": "goods1",
-            //     "goods_price": 100,
-            //     "good_owner_id": 1,
-            //     "add_time":'2019-01-01 00:00:00'
-            // },
-        ],
-        test:{
-            id:null,
-            src:null,
-            price:null,
-            zuozhe:null
+export default {
+    namespaced: true,
+    state: {
+        items: [],
+    },
+    mutations: {
+        setCartList(state, cartList) {
+            state.items = cartList;
+        },
+        addToCart(state, item) {
+            state.items.push(item);
+        },
+        //根据img_id删除购物车中的商品
+        removeCartItemByI_id(state, id) {
+            const index = state.items.findIndex(item => item.img_id === id);
+            state.items.splice(index, 1);
+        }
+    },
+    actions: {
+        fetchCartList({ commit }) {
+            cartApi.getCartList(cartList => {
+                commit('setCartList', cartList);
+            });
+        },
+        // eslint-disable-next-line no-unused-vars
+        addPhotoToCart({ commit, state }, photoId) {
+            // 获取照片详情
+            photoApi.getPhotosList(photos => {
+                const photo = photos.find(p => p.id === photoId);
+                if (photo) {
+                    const newItem = {
+                        goods_id: photo.id,
+                        img_id: photo.id,
+                        goods_name: photo.zuozhe, // 图片作者作为商品名称
+                        goods_price: photo.price,
+                        add_time: formatApi.dateNow(), // 当前时间
+                    };
+                    commit('addToCart', newItem);
+                }
+            });
+        },
+        removePhotoFromCart({ commit }, id) {
+            commit('removeCartItemByI_id', id);
+        }
+    },
+    //使用getter，根据img_id获取商品信息
+    getters: {
+        getCartItemById: state => id => {
+            return state.items.find(item => item.img_id === id);
+        }
     }
-    }
-    const actions= {
-        getList({ commit },list) {
-              commit('setList', list);
-            }
-        
-    }
-    
-const mutations ={
-    setList(state,data){
-    // 创建一个新对象，包含 data 的属性
-        const newItem={
-        id: data.id,
-        src: data.src,
-        price: data.price,
-        zuozhe: data.zuozhe
-      };
-  
-      // 将新对象添加到 items 数组
-        state.items.push(newItem);
-    }
-}
-    export default {
-        namespaced: true,
-        state,
-        actions,
-        mutations
 };
-

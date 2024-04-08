@@ -7,7 +7,7 @@
 
     <!-- 标题文本 -->
     <v-toolbar-title class="title" style="flex: 2; display: flex; justify-content: center;">
-      <span>这里是图片详情页面</span>
+      <span>落霞与孤鹜齐飞，秋水共长天一色</span>
     </v-toolbar-title>
 
     <!-- 右侧链接按钮容器 -->

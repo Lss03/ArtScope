@@ -7,7 +7,7 @@
 
     <!-- 标题文本 -->
     <v-toolbar-title class="title" style="flex: 2; display: flex; justify-content: center;">
-      <span>在这里写个人中心内容</span>
+      <span>与天地兮比寿，与日月兮齐光</span>
     </v-toolbar-title>
 
     <!-- 右侧链接按钮容器 -->
