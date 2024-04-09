@@ -5,7 +5,7 @@
     </v-avatar>
     <div class="user-info">
       <div class="user-name" style="align-self: center">{{ safeUser.name }}</div>
-      <div class="account-info">账号：{{ safeUser.name }}</div>
+      <div class="account-info">账号：{{safeUser.name }}</div>
       <div class="stats-info">点赞数：{{ safeUser.likes }} &nbsp;&nbsp; 粉丝：{{ safeUser.fans }}</div>
     </div>
   </div>
@@ -21,7 +21,7 @@ export default {
       user: state => state.userInstance.userInfo
     }),
     safeUser() {
-      return { name: '士态炎凉', likes: 10, fans: 50 }; // 默认值
+      return { name: localStorage.getItem('username'), likes: 10, fans: 50 }; // 默认值
     }
   },
   mounted() {
