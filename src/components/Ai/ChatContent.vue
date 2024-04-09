@@ -1,44 +1,50 @@
 <template>
-  <v-container fluid class="pa-0">
+  <v-container fluid style="height: 100%;overflow: hidden;">
     <!-- 聊天信息显示区域 -->
-    <v-row>
-      <v-col cols="12">
-        <div class="chat-container">
+    <div :style=" { overflowY: dataValue,overflowX: containeroverflow,height: containerHeight} ">
+      <v-row>
+        <v-col cols="12">
           <!-- 初始提示信息 -->
-          <div class="message-wrapper">
-            <v-avatar color="green" class="ma-2">
+          <div v-if="haveDialogue"  class="mt-n10" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;" >
+            <v-avatar color="green" size="50">
               <img :src="aiAvatar" alt="AI" />
             </v-avatar>
-            <v-card class="message-ai message-card">
-              <v-card-text>请输入一段文本，我会根据文本内容生成一张图片。</v-card-text>
-            </v-card>
+            <p class="text-center mt-5 font-weight-black">请输入一段文本，我会根据文本内容生成一张图片。</p>
           </div>
           <!-- 用户和AI的消息 -->
-          <div v-for="(message, index) in messages" :key="index" class="message-wrapper">
-            <v-avatar :color="message.sender === 'user' ? 'blue' : 'green'" class="ma-2">
-              <img :src="message.sender === 'user' ? userAvatar : aiAvatar" alt="message.sender" />
-            </v-avatar>
+          <div class="ml-10 mr-10 mt-2" v-for="(message, index) in messages" :key="index" >
+            <!-- 用户头像和用户名 -->
+            <div style="display: flex; align-items: center;">
+              <v-avatar :color="message.sender === 'user' ? 'blue' : 'green'" size="40" >
+                <img :src="message.sender === 'user' ? userAvatar : aiAvatar" alt="message.sender" />
+              </v-avatar>
+              <p class="font-weight-bold ml-3 mt-3" style="display: flex; align-items: center; font-size: 20px">{{message.sender}}</p>
+            </div>
             <!-- 显示文本消息 -->
-            <v-card v-if="message.text" :class="`message-${message.sender} message-card`">
-              <v-card-text>{{ message.text }}</v-card-text>
-            </v-card>
+            <div class="mt-2" style="display: flex; align-items: center; ">
+              <v-card style="width: 100%" v-if="message.text">
+                <v-card-text>{{ message.text }}</v-card-text>
+              </v-card>
+            </div>
             <!-- 显示图片消息 -->
-            <div v-if="message.image" class="image-wrapper">
-              <img :src="message.image" alt="Generated Image" class="message-image" />
+            <div v-if="message.image" style="display: flex; align-items: center; ">
+              <v-card style="width: 100%;overflow: hidden;height: 400px" >
+                <img :src="message.image" alt="Generated Image" style="width: 100%; height: 100%; object-fit: cover;" />
+              </v-card>
             </div>
           </div>
-
           <!-- 显示生成的图片 -->
-          <v-img v-if="saveImageData" :src="saveImageData" alt="Generated Image" class="generated-image"></v-img>
-        </div>
-      </v-col>
-    </v-row>
-
+          <!-- <v-img v-if="saveImageData" :src="saveImageData" alt="Generated Image" class="generated-image"></v-img>-->
+        </v-col>
+      </v-row>
+    </div>
     <!-- 输入区域 -->
     <v-row>
-      <v-col cols="12" class="d-flex justify-end align-center input-button-container">
-        <v-text-field v-model="textPrompt" label="输入文本" filled></v-text-field>
-        <v-btn class="ml-2" color="success" @click="sendTextToAI">发送</v-btn>
+      <v-col cols="12" class="d-flex justify-end  fixed-bottom">
+        <div class="ml-10 mr-10 mt-2" style="width: 100%; display: flex; align-items: center;">
+          <v-text-field v-model="textPrompt" placeholder="输入文本" hide-details></v-text-field>
+          <v-btn  class="ml-2" color="success" @click="sendTextToAI" depressed><v-icon>mdi-send</v-icon></v-btn>
+        </div>
       </v-col>
     </v-row>
 
@@ -64,6 +70,10 @@ export default {
   data() {
     return {
       messages: [],
+      haveDialogue:true, // 是否已有对话
+      dataValue:"hidden",
+      containeroverflow:"hidden",
+      containerHeight: '600px',
       aiAvatar: 'https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png', // AI头像路径
       userAvatar: 'https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png', // 用户头像路径
       textPrompt: '', // 用户输入的文本
@@ -74,6 +84,8 @@ export default {
   methods: {
     sendTextToAI() {
       if (this.textPrompt) {
+        this.haveDialogue = false;
+        this.dataValue = 'auto'
         this.messages.push({
           text: this.textPrompt,
           sender: 'user',
