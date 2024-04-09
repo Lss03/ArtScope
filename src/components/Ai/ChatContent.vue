@@ -86,7 +86,7 @@ export default {
     processText(text) {
       let body = JSON.stringify({ prompt: text });
 
-      fetch('http://127.0.0.1:5000/generate-image', {
+      fetch('http://test-demlskfdgd.ap-southeast-1.fcapp.run/generate-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
