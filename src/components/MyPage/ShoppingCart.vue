@@ -1,24 +1,7 @@
 <template >
 <div class="container">
   <table class="sticky-header-table">
-    <tr class="items">
-      <td>序号</td>
-      <td>作品名称</td>
-      <td></td>
-      <td>加入购物车时间</td>
-      <td>商品价格</td>
-    </tr>
-    <tr
-        v-for="(item,index) in items"
-        :key="index"
-        class="items"
-    >
-      <td>{{index}}</td>
-      <td>{{item.goods_name}}</td>
-      <td></td>
-      <td>{{item.add_time}}</td>
-      <td>{{item.goods_price}}￥</td>
-    </tr>
+
   </table>
 </div>
 </template>

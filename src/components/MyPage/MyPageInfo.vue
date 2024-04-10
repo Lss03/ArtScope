@@ -1,14 +1,23 @@
 <template>
-  <div class="container">
-    <v-avatar size="160" class="avatar">
-      <v-img src="https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png" alt="User Avatar"></v-img>
-    </v-avatar>
-    <div class="user-info">
-      <div class="user-name" style="align-self: center">{{ safeUser.name }}</div>
-      <div class="account-info">账号：{{safeUser.name }}</div>
-      <div class="stats-info">点赞数：{{ safeUser.likes }} &nbsp;&nbsp; 粉丝：{{ safeUser.fans }}</div>
-    </div>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <div  class="ml-2 mr-5 mt-2 background" style="border-radius: 15px;height: 200px;display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <v-avatar size="90" class="ml-4">
+              <v-img src="https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png" alt="User Avatar"></v-img>
+            </v-avatar>
+            <div class="mt-n4 ml-4" style="display: flex; flex-direction: column; align-items: center; justify-content: center;font-size: 16px;background-color: rgba(255, 255, 255, 0.5);border-radius: 15px;width: 300px;box-shadow:2px 2px 3px black">
+              <div class="mt-5">{{ safeUser.name }}</div>
+              <div class="mt-2 mb-2">点赞数：{{ safeUser.likes }} &nbsp;&nbsp; 粉丝数：{{ safeUser.fans }}</div>
+            </div>
+        </div>
+      </v-col>
+    </v-row>
+
+
+
+
+  </v-container>
 </template>
 
 <script>
@@ -31,18 +40,11 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  background: rgb(238, 246, 254);
-  padding-inline: 0;
+
+.background {
+  background-image: url(@/assets/image/myPage.png);
+  background-repeat: repeat;
 }
-.avatar {
-margin-inline: 20px;
-}
-.user-info{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  margin-left:5px;
-}
+
+
 </style>
