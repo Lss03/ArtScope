@@ -12,3 +12,5 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+Vue.prototype.$eventBus = new Vue(); // 添加全局事件总线
+
