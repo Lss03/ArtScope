@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="height: 100%;overflow: hidden;">
     <!-- 聊天信息显示区域 -->
-    <div :style=" { overflowY: dataValue,overflowX: containeroverflow,height: containerHeight} ">
+    <div :style=" { overflowY: dataValue,overflowX: defaultOverflow,height: containerHeight} ">
       <v-row>
         <v-col cols="12">
           <!-- 初始提示信息 -->
@@ -28,7 +28,7 @@
             </div>
             <!-- 显示图片消息 -->
             <div v-if="message.image" style="display: flex; align-items: center; ">
-              <v-card style="width: 100%;overflow: hidden;height: 400px" >
+              <v-card style="width: 100%;overflow: hidden;height: 200px" >
                 <img :src="message.image" alt="Generated Image" style="width: 100%; height: 100%; object-fit: cover;" />
               </v-card>
             </div>
@@ -41,20 +41,20 @@
     <!-- 输入区域 -->
     <v-row>
       <v-col cols="12" class="d-flex justify-end  fixed-bottom">
-        <div class="ml-10 mr-10 mt-2" style="width: 100%; display: flex; align-items: center;">
-          <v-text-field v-model="textPrompt" placeholder="输入文本" hide-details></v-text-field>
-          <v-btn  class="ml-2" color="success" @click="sendTextToAI" depressed><v-icon>mdi-send</v-icon></v-btn>
+        <div class="ml-10 mr-10 mt-0" style="width: 100%; display: flex; align-items: center;">
+          <v-text-field :label="suggestLabel" v-model="textPrompt" outlined :append-icon="sendIcon" color="#00838F" @click:append="sendTextToAI" :readonly="readOnly"></v-text-field>
+<!--          <v-btn  class="ml-2" color="#00838F" @click="sendTextToAI" depressed><v-icon color="white">mdi-send</v-icon></v-btn>-->
+<!--          mdi-radiobox-marked mdi-send-->
         </div>
       </v-col>
     </v-row>
 
     <!-- 保存确认对话框 -->
-    <v-dialog v-model="showConfirmationDialog" max-width="400">
+    <v-dialog v-model="showConfirmationDialog" max-width="300">
       <v-card>
         <v-card-title class="headline">确认保存图片</v-card-title>
         <v-card-text>确定要保存这张图片吗？</v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="cancelSaveImage">取消</v-btn>
           <v-btn color="blue darken-1" text @click="saveImageToUserData">保存</v-btn>
         </v-card-actions>
@@ -71,9 +71,12 @@ export default {
     return {
       messages: [],
       haveDialogue:true, // 是否已有对话
-      dataValue:"hidden",
-      containeroverflow:"hidden",
+      dataValue:"hidden", // 监听状态显示纵向滚动条
+      defaultOverflow:"hidden", // 默认隐藏横向滚动条
       containerHeight: '600px',
+      suggestLabel:'输入描述性文本',
+      readOnly:false,
+      sendIcon:'mdi-send',
       aiAvatar: 'https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png', // AI头像路径
       userAvatar: 'https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png', // 用户头像路径
       textPrompt: '', // 用户输入的文本
@@ -85,7 +88,10 @@ export default {
     sendTextToAI() {
       if (this.textPrompt) {
         this.haveDialogue = false;
-        this.dataValue = 'auto'
+        this.readOnly = true;
+        this.dataValue = 'auto';
+        this.sendIcon = 'mdi-radiobox-marked';
+        this.suggestLabel = '正在生成';
         this.messages.push({
           text: this.textPrompt,
           sender: 'user',
@@ -120,6 +126,9 @@ export default {
             });
             this.saveImageData = generatedImageUrl;
             this.promptSaveImage(generatedImageUrl);
+            this.readOnly = false;
+            this.suggestLabel = '输入描述性文本';
+            this.sendIcon = 'mdi-send';
           })
           .catch(error => {
             console.error('Error:', error);
