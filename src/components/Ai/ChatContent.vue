@@ -28,7 +28,7 @@
             </div>
             <!-- 显示图片消息 -->
             <div v-if="message.image" style="display: flex; align-items: center; ">
-              <v-card style="width: 100%;overflow: hidden;height: 200px" >
+              <v-card style="width: 100%;overflow: hidden;height: 400px" >
                 <img :src="message.image" alt="Generated Image" style="width: 100%; height: 100%; object-fit: cover;" />
               </v-card>
             </div>
