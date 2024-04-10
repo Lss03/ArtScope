@@ -33,8 +33,6 @@
               </v-card>
             </div>
           </div>
-          <!-- 显示生成的图片 -->
-          <!-- <v-img v-if="saveImageData" :src="saveImageData" alt="Generated Image" class="generated-image"></v-img>-->
         </v-col>
       </v-row>
     </div>
@@ -43,8 +41,6 @@
       <v-col cols="12" class="d-flex justify-end  fixed-bottom">
         <div class="ml-10 mr-10 mt-0" style="width: 100%; display: flex; align-items: center;">
           <v-text-field :label="suggestLabel" v-model="textPrompt" outlined :append-icon="sendIcon" color="#00838F" @click:append="sendTextToAI" :readonly="readOnly"></v-text-field>
-<!--          <v-btn  class="ml-2" color="#00838F" @click="sendTextToAI" depressed><v-icon color="white">mdi-send</v-icon></v-btn>-->
-<!--          mdi-radiobox-marked mdi-send-->
         </div>
       </v-col>
     </v-row>
@@ -144,7 +140,6 @@ export default {
     },
     saveImageToUserData() {
       // 添加保存图像到本地的逻辑
-      // 例如，您可以创建一个 <a> 标签并模拟点击以下载图像
       const a = document.createElement('a');
       a.href = this.saveImageData;
       a.download = 'generated_image.jpg';
