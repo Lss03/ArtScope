@@ -1,7 +1,7 @@
 // 引入 Axios
 const axios = require('axios');
 
-// JSON Server 的基础URL：http://116.63.9.51:8080
+// JSON Server 的基础URL
 const baseURL = 'http://localhost:3001';
 
 // 设置 Axios 实例
