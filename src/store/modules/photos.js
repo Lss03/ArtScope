@@ -16,18 +16,13 @@ const actions = {
         if(item.id==id)
         item.like=item.like+1
       })
-
-
-    }, 
+    },
     dellike(context,id){
         state.list.forEach((item)=>{
           if(item.id==id)
           item.like=item.like-1
         })
-  
-  
-      }
-    
+      },
 };
 
 const mutations = {
