@@ -4,49 +4,49 @@
             <span class="third-title">风景</span>
             <div class="photos-container">
                 <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(image,index) in pictures" :key="index" class="item">
-                        <img class="item-img" v-if="index < 4" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image)">
+                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in landscapePictures" :key="index" class="item">
+                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick('风景',image.id)">
                     </v-col>
                 </v-row>
             </div>
         </div>
+        <!-- 重复上述模式展示其他分类 -->
 
         <div>
             <span class="third-title">猫猫</span>
             <div class="photos-container">
                 <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id">
-                        <img class="item-img" v-if="(index >= 4)&(index <8)" :src="photo.src" alt="" @click="handleButtonClick(photo)">
+                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in catsPictures" :key="index" class="item">
+                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
                     </v-col>
                 </v-row>
             </div>
-
         </div>
-
 
         <div>
             <span class="third-title">建筑</span>
             <div class="photos-container">
                 <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id">
-                        <img class="item-img" v-if="(index >=8 )&(index <12)" :src="photo.src" alt="" @click="handleButtonClick(photo)">
+                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in buildingsPictures" :key="index" class="item">
+                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
                     </v-col>
                 </v-row>
             </div>
-
         </div>
+
 
         <div>
             <span class="third-title">小狗</span>
             <div class="photos-container">
                 <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id">
-                        <img class="item-img" v-if="(index >= 12)&(index <16)" :src="photo.src" alt="" @click="handleButtonClick(photo)">
+                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in dogsPictures" :key="index" class="item">
+                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
                     </v-col>
                 </v-row>
-
             </div>
         </div>
+
+
     </v-container>
 </template>
 
@@ -106,44 +106,72 @@ export default {
     name: "Gops",
     data() {
         return {
-            pictures: [],
+            categorizedPictures: {
+                landscape: [], // 风景图片
+                cats: [], // 猫猫图片
+                buildings: [], // 建筑图片
+                dogs: [] // 小狗图片
+            }
         };
     },
+
     mounted() {
-        this.fetchPictures('cat');
+        this.fetchAllCategories();
     },
-    // computed: mapState({
-    //     photosList: state => state.photosInstance.list
-    // }),
-    // created() {
-    //     this.$store.dispatch('photosInstance/getList');
-    // },
+    computed: {
+        // 计算属性返回风景分类下的前4张图片
+        landscapePictures() {
+            return this.categorizedPictures.landscape.slice(0, 4);
+        },
+        // 对于其他分类，重复上述模式
+        catsPictures() {
+            return this.categorizedPictures.cats.slice(0, 4);
+        },
+        buildingsPictures() {
+            return this.categorizedPictures.buildings.slice(0, 4);
+        },
+        dogsPictures() {
+            return this.categorizedPictures.dogs.slice(0, 4);
+        },
+    },
     //图片详情点击事件：
     methods: {
+        fetchAllCategories() {
+            const categories = Object.keys(this.getCategoryTitle());
+            categories.forEach(category => {
+                this.fetchPictures(category);
+            });
+        },
+
+        getCategoryTitle(categoryKey) {
+            // 注意：这里修改为根据实际需要返回分类的映射，如前所述
+            const titles = {
+                landscape: 'cat',
+                cats: 'cat',
+                buildings: 'dog',
+                dogs: 'dog'
+            };
+            if (categoryKey) {
+                return titles[categoryKey] || categoryKey;
+            }
+            return titles;
+        },
+
         async fetchPictures(category) {
             try {
-                const params = {
-                    category: category, // 添加查询参数
-                };
-
-                const response = await axios.get('http://localhost:8080/api/pictures/byCategory', { params });
-                console.log("分类请求返回数据");
-                console.log(response.data);
-                console.log(response.data.pictureEntities);
+                const params = { category: this.getCategoryTitle(category) };
+                const response = await axios.get('http://116.63.9.51:8080/pictures/byCategory', { params });
                 if (response.data.success && response.data.pictureEntities) {
-                    // 提取每个图片对象的url属性
                     const pictureUrls = response.data.pictureEntities.map(picture => ({
                         url: picture.url,
-                        // 你可以根据需要提取更多属性
                         id: picture.imageId,
                         likesCount: picture.likesCount,
                         category: picture.category,
                         uploadTime: picture.uploadTime,
                         user: picture.user
                     }));
-
-                    // 存储提取的图片URL数组
-                    this.pictures = pictureUrls;
+                    // 根据分类存储图片
+                    this.$set(this.categorizedPictures, category, pictureUrls);
                 } else {
                     console.error('Failed to fetch pictures:', response.data.message);
                 }
@@ -151,13 +179,19 @@ export default {
                 console.error('Error fetching pictures:', error);
             }
         },
-        handleButtonClick(key) {
-            console.log()
-            this.$store.dispatch('xinxiInstance/getphoto',key);
-            this.$router.push('/details');
+        handleButtonClick(imageId) {
+            // 可选：如果需要在点击前就获取图片信息，可以先调用Vuex action
+            // this.$store.dispatch('xinxiInstance/getphoto', imageId);
 
-
+            // 跳转到详情页面，并通过URL参数传递图片ID
+            this.$router.push({ path: `/details/${imageId}` });
         }
+        // handleButtonClick(key) {
+        //
+        //     this.$store.dispatch('xinxiInstance/getphoto',key);
+        //     this.$router.push('/details');
+        //
+        // }
     }
 
 
