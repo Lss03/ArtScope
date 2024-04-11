@@ -5,13 +5,13 @@
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 70px; /* 标题栏高度加上16px的留白 */
+    top: 65px; /* 标题栏高度加上16px的留白 */
     left: 256px; /* 与侧边栏接壤 */
     right: 0;
     bottom: 0;
     overflow: hidden;
     z-index: 1000;
-    border-radius: 15px;
+    /*border-radius: 15px;*/
     transition: 0.5s; /* 添加过渡动画 */
     background: rgba(0, 0, 0, 0.6); /* 添加半透明黑色背景 */
 }

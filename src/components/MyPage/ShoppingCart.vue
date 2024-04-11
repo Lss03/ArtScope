@@ -1,70 +1,57 @@
-<template >
-<div class="container">
-  <table class="sticky-header-table">
-    <tr class="items">
-      <td>序号</td>
-      <td>作品名称</td>
-      <td></td>
-      <td>加入购物车时间</td>
-      <td>商品价格</td>
-    </tr>
-    <tr
-        v-for="(item,index) in items"
-        :key="index"
-        class="items"
-    >
-      <td>{{index}}</td>
-      <td>{{item.goods_name}}</td>
-      <td></td>
-      <td>{{item.add_time}}</td>
-      <td>{{item.goods_price}}￥</td>
-    </tr>
-  </table>
-</div>
+<!--个人作品-->
+<template>
+    <v-container>
+        <v-row>
+            <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                    lg="3"
+                    v-for="(image, index) in pictures"
+                    :key="index"
+            >
+                <v-img :src="image.url" :alt="`Image ${index}`" aspect-ratio="1.5"></v-img>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
+
 <script>
-import {mapState} from "vuex";
+import axios from 'axios';
 
 export default {
-  name: "ShoppingCart",
-  mounted() {
-    this.$store.dispatch("cartInstance/fetchCartList");
-  },
-  computed: {
-    ...mapState({
-      items: (state) => state.cartInstance.items
-    })
-  }
-}
+    data() {
+        return {
+            pictures: [], // 存储图片URL的数组
+        };
+    },
+    mounted() {
+        this.fetchPictures(localStorage.getItem('username')); // 传递用户名
+    },
+    methods: {
+        async fetchPictures(username) {
+            try {
+                const params = {
+                    username: username, // 添加查询参数
+                };
+
+                const response = await axios.get('https://7aee36ef-ff2c-4af7-b3cf-911287232704.mock.pstmn.io/user/info', { params });
+                console.log("请求返回数据");
+                console.log(response.data);
+                if (response.data.success && response.data.pictures) {
+                    this.pictures = response.data.pictures;
+                } else {
+                    console.error('Failed to fetch pictures:', response.data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching pictures:', error);
+            }
+        },
+    },
+};
+
 </script>
+<style>
 
-<style scoped>
-
-.container{
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: center;*/
-  padding-inline: 0;
-  margin-inline: 0;
-  height: auto;
-}
-.sticky-header-table {
-  border-collapse: collapse;display: block;
-  max-height: calc(100% - 20px); /* 设置表格的最大高度，可根据需要调整 */
-  overflow-y: auto; /* 垂直滚动条 */
-}
-.items{
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 5px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);
-}
-td{
-  flex: 1;
-  text-align: center;
-  line-height: 50px;
-}
 </style>
