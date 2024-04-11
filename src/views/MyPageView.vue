@@ -9,8 +9,8 @@
           align-tabs="center"
           grow
       >
-        <v-tab @click="changeComponent(1)" >收藏</v-tab>
-        <v-tab @click="changeComponent(2)">作品</v-tab>
+        <v-tab @click="changeComponent(1)" >作品</v-tab>
+        <v-tab @click="changeComponent(2)">收藏</v-tab>
       </v-tabs>
       <component :is="currentComponent"></component>
     </div>
