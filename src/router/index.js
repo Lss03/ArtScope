@@ -5,6 +5,8 @@ import AiView from "@/views/AiView.vue";
 import DetailsView from "@/views/DetailsView.vue";
 import HomeView from "@/views/HomeView.vue";
 import MyPageView from "@/views/MyPageView.vue";
+import MoreView from "@/views/MoreView.vue";
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +35,11 @@ const routes = [
     path: '/MyPage',
     name: MyPageView,
     component: MyPageView
+  },
+  {
+    path: '/MorePic',
+    name: MoreView,
+    component: MoreView
   }
 ]
 

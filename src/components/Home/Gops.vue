@@ -2,6 +2,7 @@
   <v-container class="container">
     <div>
       <span class="third-title">风景</span>
+      <p @click="$router.push('/MorePic')" >跳转</p>
       <div class="photos-container">
         <v-row no-gutters>
           <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id" class="item">
