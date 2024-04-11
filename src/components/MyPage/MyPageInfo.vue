@@ -30,7 +30,12 @@ export default {
       user: state => state.userInstance.userInfo
     }),
     safeUser() {
-      return { name: localStorage.getItem('username'), likes: 10, fans: 50 }; // 默认值
+        if(localStorage.getItem('username') === null){
+            return { name: '未登录', likes: 0, fans: 0 }; // 默认值
+        }else {
+            return { name: localStorage.getItem('username'), likes: 10, fans: 50 }; // 默认值
+        }
+
     }
   },
   mounted() {

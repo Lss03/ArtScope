@@ -86,6 +86,10 @@ export default {
       newComment: '', // 绑定到输入框的新评论文本
     }
   },
+    created() {
+        this.imageId = this.$route.params.id;
+        // 根据imageId获取图片详情...
+    },
   computed: {
     //判断是否在购物车中
     inCart() {
