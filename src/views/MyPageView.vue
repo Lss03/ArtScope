@@ -1,7 +1,7 @@
 <template>
   <div>
     <MyPageHeader />
-    <div class="my-container " >
+    <div class="my-container" >
       <MyPageInfo class="my-page-info"/>
       <v-divider></v-divider>
       <v-tabs
@@ -9,8 +9,8 @@
           align-tabs="center"
           grow
       >
-        <v-tab @click="changeComponent(1)" >作品</v-tab>
-        <v-tab @click="changeComponent(2)">收藏</v-tab>
+        <v-tab @click="changeComponent(1)" >购物车</v-tab>
+        <v-tab @click="changeComponent(2)">仓库</v-tab>
       </v-tabs>
       <component :is="currentComponent"></component>
     </div>

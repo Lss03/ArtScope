@@ -1,8 +1,22 @@
 <template>
-  <v-app-bar app :elevation="4" style=" background-color: white;" flat class="text-center">
-    <!-- 图片容器 -->
-    <div style="flex: 1; display: flex; justify-content: center; padding-left: 2px; height: 60px;width: 100%">
-      <img src="@/assets/image/Logo.png" alt="Icon" style="width: 130px; height: 100%; object-fit: cover;">
+  <v-app-bar app :elevation="4" style="border-radius: 15px; background-color: white;" flat class="text-center">
+    <!-- 左侧图片容器 -->
+    <div style="flex: 1; display: flex; justify-content: flex-start; padding-left: 2px;">
+      <img src="@/assets/image/panda_.png" alt="Icon" style="height: 60px;">
+    </div>
+
+    <!-- 标题文本 -->
+    <v-toolbar-title class="title" style="flex: 2; display: flex; justify-content: center;">
+      <span>花径不曾缘客扫，蓬门今始为君开</span>
+    </v-toolbar-title>
+
+    <!-- 右侧链接按钮容器 -->
+    <div style="flex: 1; display: flex; justify-content: flex-end; padding-right: 16px;">
+      <a href="https://www.henu.edu.cn/">
+        <v-btn icon>
+          <img src="https://img2.baidu.com/it/u=2905407378,1250838945&fm=253&fmt=auto&app=138&f=JPEG?w=503&h=500" alt="河南大学" class="enlarge-image" style="height: 60px;">
+        </v-btn>
+      </a>
     </div>
   </v-app-bar>
 </template>
