@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <HomeHeader />
-    <MorePic/>
+    <MorePic :category="$route.params.id"/>
   </v-container>
 </template>
 

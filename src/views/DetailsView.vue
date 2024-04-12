@@ -6,7 +6,7 @@
         <!-- Detail标题栏 -->
 
       <div>
-        <photodetail :imageId="$route.params.id"></photodetail>
+        <photodetail :image-id="$route.params.id"></photodetail>
       </div>
         <!-- 占位区域 -->
 

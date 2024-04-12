@@ -4,7 +4,7 @@
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <span class="third-title">风景</span>
                 <!-- 添加更多按钮 -->
-                <v-btn text @click="goToMoreView">更多</v-btn>
+                <v-btn text @click="goToMoreView('cat')">更多</v-btn>
             </div>
             <div class="photos-container">
                 <v-row no-gutters>
@@ -16,12 +16,15 @@
         </div>
 
         <!-- 重复上述模式展示其他分类 -->
-
         <div>
-            <span class="third-title">猫猫</span>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="third-title">动物</span>
+                <!-- 添加更多按钮 -->
+                <v-btn text @click="goToMoreView('cat')">更多</v-btn>
+            </div>
             <div class="photos-container">
                 <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in catsPictures" :key="index" class="item">
+                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in animalsPictures" :key="index" class="item">
                         <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
                     </v-col>
                 </v-row>
@@ -29,7 +32,11 @@
         </div>
 
         <div>
-            <span class="third-title">建筑</span>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="third-title">建筑</span>
+                <!-- 添加更多按钮 -->
+                <v-btn text @click="goToMoreView('dog')">更多</v-btn>
+            </div>
             <div class="photos-container">
                 <v-row no-gutters>
                     <v-col cols="12" sm="6" md="3" v-for="(image, index) in buildingsPictures" :key="index" class="item">
@@ -38,13 +45,15 @@
                 </v-row>
             </div>
         </div>
-
-
         <div>
-            <span class="third-title">小狗</span>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="third-title">艺术</span>
+                <!-- 添加更多按钮 -->
+                <v-btn text @click="goToMoreView('dog')">更多</v-btn>
+            </div>
             <div class="photos-container">
                 <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in dogsPictures" :key="index" class="item">
+                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in artPictures" :key="index" class="item">
                         <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
                     </v-col>
                 </v-row>
@@ -129,21 +138,26 @@ export default {
             return this.categorizedPictures.landscape;
         },
         // 对于其他分类，重复上述模式
-        catsPictures() {
+        animalsPictures() {
             return this.categorizedPictures.cats.slice(0, 4);
         },
         buildingsPictures() {
             return this.categorizedPictures.buildings;
         },
-        dogsPictures() {
+        artPictures() {
             return this.categorizedPictures.dogs.slice(0, 4);
         },
     },
     //图片详情点击事件：
     methods: {
-        goToMoreView() {
+        goToMoreView(category) {
+            console.log("goToMoreView "+category);
             // 使用 Vue Router 的编程式导航跳转到 MoreView
-            this.$router.push('/MorePic'); // 确保你的路由名称与这里一致
+            this.$router.push({ path: `/MorePic/${category}` });
+        },
+        handleButtonClick(imageId) {
+            // 跳转到详情页面，并通过URL参数传递图片ID
+            this.$router.push({ path: `/details/${imageId}` });
         },
         fetchAllCategories() {
             const categories = Object.keys(this.getCategoryTitle());
@@ -151,7 +165,6 @@ export default {
                 this.fetchPictures(category);
             });
         },
-
         getCategoryTitle(categoryKey) {
             // 注意：这里修改为根据实际需要返回分类的映射，如前所述
             const titles = {
@@ -188,19 +201,6 @@ export default {
                 console.error('Error fetching pictures:', error);
             }
         },
-        handleButtonClick(imageId) {
-            // 可选：如果需要在点击前就获取图片信息，可以先调用Vuex action
-            // this.$store.dispatch('xinxiInstance/getphoto', imageId);
-
-            // 跳转到详情页面，并通过URL参数传递图片ID
-            this.$router.push({ path: `/details/${imageId}` });
-        }
-        // handleButtonClick(key) {
-        //
-        //     this.$store.dispatch('xinxiInstance/getphoto',key);
-        //     this.$router.push('/details');
-        //
-        // }
     }
 
 

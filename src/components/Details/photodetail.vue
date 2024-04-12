@@ -107,7 +107,6 @@
 </template>
 
 <script>
-// import xinxi from "@/store/modules/xinxi"
 import axios from "axios";
 
 export default {
@@ -217,13 +216,7 @@ export default {
 
                 // 发送评论到服务器
                 const response = await axios.post('http://116.63.9.51:8080/comments/upload', requestBody);
-                // const newCommentData = {
-                //     userEntity: responseUser.data.user, // 用户信息
-                //     pictureEntity: this.pictureDetails, // 相关的图片信息，如果评论与图片关联
-                //     comment: this.newComment, // 评论文本
-                //     // id: response.data.commentId || Date.now(), // 服务器可能返回一个新的评论ID，如果没有则使用当前时间戳
-                //     // commentTime: new Date().toLocaleString() // 生成一个表示当前时间的字符串
-                // };
+
                 if (response.data.success) {
                     console.log('评论成功提交!');
                     console.log(response.data);
@@ -232,9 +225,6 @@ export default {
                         id: response.data.commentId || Date.now(),
                         commentTime: new Date().toLocaleString()
                     });
-                    // // 正确的方法来响应式更新数组
-                    // this.comments = [...this.comments, newCommentData];
-
                     this.newComment = ''; // 清空输入框
                     // 页面刷新
                     window.location.reload(); // 刷新页面以显示最新评论

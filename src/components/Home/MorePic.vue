@@ -2,15 +2,45 @@
     <div>
         <!--  最上面的标题图需动态改变-->
         <div class="ml-n4 mr-n4 mt-n3 background"
-             style="height: 200px;display: flex; flex-direction: column; justify-content: center;">
-            <div>
+             style="height: 200px; display: flex; flex-direction: column; justify-content: center;">
+            <div v-if="categoryA === 'cat'">
                 <div class="ml-12 mt-n4"
-                     style="color: white;font-size: 40px;text-align: left; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); ">
-                    春日胜景
+                     style="color: white; font-size: 40px; text-align: left; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                    自然风光
                 </div>
-                <div class="ml-13 mt-2" style="color: white;text-align: left; ">作品数：70+</div>
+                <div class="ml-13 mt-2" style="color: white; text-align: left;">
+                    作品数：80+
+                </div>
             </div>
+            <div v-else-if="categoryA === 'dog'">
+                <div class="ml-12 mt-n4"
+                     style="color: white; font-size: 40px; text-align: left; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                    城市掠影
+                </div>
+                <div class="ml-13 mt-2" style="color: white; text-align: left;">
+                    作品数：50+
+                </div>
+            </div>
+<!--            <div v-else-if="categoryA === 'Art'">-->
+<!--                <div class="ml-12 mt-n4"-->
+<!--                     style="color: white; font-size: 40px; text-align: left; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">-->
+<!--                    艺术之美-->
+<!--                </div>-->
+<!--                <div class="ml-13 mt-2" style="color: white; text-align: left;">-->
+<!--                    作品数：60+-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div v-else-if="categoryA === 'Art'">-->
+<!--                <div class="ml-12 mt-n4"-->
+<!--                     style="color: white; font-size: 40px; text-align: left; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">-->
+<!--                    历史痕迹-->
+<!--                </div>-->
+<!--                <div class="ml-13 mt-2" style="color: white; text-align: left;">-->
+<!--                    作品数：70+-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
+
         <div class="mt-5">
             <v-row v-for="(row, rowIndex) in imageLayout" :key="rowIndex">
                 <!--          <v-col cols="12" sm="6" md="3" v-for="(image, index) in catsPictures" :key="index" class="item">-->
@@ -36,25 +66,39 @@
     background-repeat: repeat;
 }
 
+/*.custom-img {*/
+/*    margin: -1px;*/
+/*}*/
 .custom-img {
-    margin: -1px;
+    width: 100%;  /* 宽度调整为容器的 100% */
+    height: auto; /* 高度自动调整以保持宽高比 */
+    max-width: 250px; /* 最大宽度限制为 300px */
+    //max-height: 200px; /* 最大高度限制为 200px */
 }
+
 </style>
 <script>
 import axios from "axios";
 
 export default {
     name: "MorePic",
+    props: {
+        category: {
+            type: String,  // 根据实际情况，这里可能是Number或String
+            required: true,
+        },
+    },
     data() {
         return {
+            categoryA: this.category,
             pictures: [],
             imageLayout: [
-                [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
-                [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
+                 [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
+                 [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
                 [{cols: 6}, {cols: 6}], // 第三行显示两张图片
-                [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
-                [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
-                [{cols: 6}, {cols: 6}],
+                // [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
+                // [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
+                // [{cols: 6}, {cols: 6}],
             ],
 
         }
@@ -65,7 +109,9 @@ export default {
     methods: {
         async fetchPictures() {
             try {
-                const params = {category: 'cat'};
+                // const category = this.category;
+                // console.log("MorePic category: "+category);
+                const params = {category: this.category};
                 const response = await axios.get('http://116.63.9.51:8080/pictures/byCategory', {params});
                 if (response.data.success && response.data.pictureEntities) {
                     // 提取每个图片对象的url属性
