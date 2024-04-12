@@ -135,14 +135,14 @@ export default {
     computed: {
         // 计算属性返回风景分类下的前4张图片
         landscapePictures() {
-            return this.categorizedPictures.landscape;
+            return this.categorizedPictures.landscape.slice(0,4);
         },
         // 对于其他分类，重复上述模式
         animalsPictures() {
             return this.categorizedPictures.cats.slice(0, 4);
         },
         buildingsPictures() {
-            return this.categorizedPictures.buildings;
+            return this.categorizedPictures.buildings.slice(0, 4);
         },
         artPictures() {
             return this.categorizedPictures.dogs.slice(0, 4);
@@ -182,7 +182,7 @@ export default {
         async fetchPictures(category) {
             try {
                 const params = { category: this.getCategoryTitle(category) };
-                const response = await axios.get('http://116.63.9.51:8080/pictures/byCategory', { params });
+                const response = await axios.get('http://122.9.14.18:8080/pictures/byCategory', { params });
                 if (response.data.success && response.data.pictureEntities) {
                     const pictureUrls = response.data.pictureEntities.map(picture => ({
                         url: picture.url,

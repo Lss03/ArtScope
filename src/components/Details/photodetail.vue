@@ -148,7 +148,7 @@ export default {
                 // 假设你已经通过某种方式获取了图片ID
                 const imageId = this.imageId; // 或者从 Vuex/store, props, $route.params 中获取
                 console.log("imageId:", imageId);
-                const response = await axios.get(`http://116.63.9.51:8080/pictures/info/${this.imageId}`);
+                const response = await axios.get(`http://122.9.14.18:8080/pictures/info/${this.imageId}`);
                 console.log(response.data);
                 if (response.data.success) {
                     this.userDetails = response.data.userEntity;

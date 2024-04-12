@@ -30,9 +30,7 @@
                 <div class="inputBox">
                     <input type="text" placeholder="Username" v-model="register.username">
                 </div>
-                <div class="inputBox">
-                    <input type="text" placeholder="Email Address" v-model="register.email">
-                </div>
+
                 <div class="inputBox">
                     <input type="password" placeholder="Create Password" v-model="register.password">
                 </div>
@@ -86,7 +84,7 @@ export default {
         async signIn() {
             try {
                 // 发送请求到后端验证用户名和密码
-                const response = await fetch('https://7aee36ef-ff2c-4af7-b3cf-911287232704.mock.pstmn.io/login', {
+                const response = await fetch('http://122.9.14.18:8080/user/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -101,9 +99,8 @@ export default {
                 console.log(data);
 
                 // 检查后端返回的数据，确认登录是否成功
-                if (data.success && data.token) {
-                    // 存储token到LocalStorage或其他持久化存储，用于持久化登录状态
-                    localStorage.setItem('authToken', data.token);
+                if (data.success ) {
+
                     // 可选：存储其他用户信息
                     localStorage.setItem('username', this.login.username); // 存储用户名
 
@@ -111,7 +108,6 @@ export default {
                     const newUsername = localStorage.getItem('username');
                     //console.log(newUsername);//检查是否存储上
                     this.$eventBus.$emit('usernameUpdated', newUsername);
-
                     // 跳转到个人信息界面
                     await this.$router.push('/Mypage');
                 } else {
@@ -136,14 +132,13 @@ export default {
             }
 
             try {
-                const response = await fetch('https://7aee36ef-ff2c-4af7-b3cf-911287232704.mock.pstmn.io/register', {
+                const response = await fetch('http://122.9.14.18:8080/user/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         username: this.register.username,
-                        email: this.register.email,
                         password: this.register.password
                     })
                 });
@@ -151,16 +146,13 @@ export default {
                 console.log(data);
 
                 // 检查后端返回的数据，确认登录是否成功
-                if (data.success && data.token) {
-                    // 存储token到LocalStorage或其他持久化存储，用于持久化登录状态
-                    localStorage.setItem('authToken', data.token);
+                if (data.success ) {
                     // 可选：存储其他用户信息
                     localStorage.setItem('username', this.register.username); // 存储用户名
                     //更新应用状态
                     const newUsername = localStorage.getItem('username');
                     //console.log(newUsername);//检查是否存储上
                     this.$eventBus.$emit('usernameUpdated', newUsername);
-
                     // 跳转到个人信息界面
                     await this.$router.push('/Mypage');
                 } else {
@@ -173,7 +165,6 @@ export default {
         },
         clearRegistrationForm() {
             this.register.username = '';
-            this.register.email = '';
             this.register.password = '';
             this.register.confirmPassword = '';
         }

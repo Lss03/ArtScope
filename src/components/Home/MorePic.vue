@@ -112,7 +112,7 @@ export default {
                 // const category = this.category;
                 // console.log("MorePic category: "+category);
                 const params = {category: this.category};
-                const response = await axios.get('http://116.63.9.51:8080/pictures/byCategory', {params});
+                const response = await axios.get('http://122.9.14.18:8080/pictures/byCategory', {params});
                 if (response.data.success && response.data.pictureEntities) {
                     // 提取每个图片对象的url属性
                     const pictureUrls = response.data.pictureEntities.map(picture => ({
