@@ -4,12 +4,12 @@
           <DetailsHeader/>
       </div>
         <!-- Detail标题栏 -->
-       
+
       <div>
-        <photodetail></photodetail>
+        <photodetail :imageId="$route.params.id"></photodetail>
       </div>
         <!-- 占位区域 -->
-        
+
   </v-container>
 </template>
 
@@ -22,7 +22,8 @@ export default {
   components: {
     DetailsHeader,
     photodetail
-  }
+  },
+
 }
 </script>
 

@@ -1,16 +1,16 @@
 <template>
-  <v-container class="container">
-    <div>
-      <span class="third-title">风景</span>
-      <p @click="$router.push('/MorePic')" >跳转</p>
-      <div class="photos-container">
-        <v-row no-gutters>
-          <v-col cols="12" sm="6" md="3" v-for="(photo,index) in photosList" :key="photo.id" class="item">
-            <img class="item-img" v-if="index < 4" :src="photo.src" alt="" @click="handleButtonClick(photo)">
-          </v-col>
-        </v-row>
-      </div>
-    </div>
+    <v-container class="container">
+        <div>
+            <span class="third-title">风景</span>
+            <div class="photos-container">
+                <v-row no-gutters>
+                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in landscapePictures" :key="index" class="item">
+                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
+                    </v-col>
+                </v-row>
+            </div>
+        </div>
+        <!-- 重复上述模式展示其他分类 -->
 
         <div>
             <span class="third-title">猫猫</span>
@@ -98,7 +98,7 @@
 </style>
 
 <script>
-// import { mapState } from 'vuex';
+
 import axios from "axios";
 
 export default {
@@ -121,14 +121,14 @@ export default {
     computed: {
         // 计算属性返回风景分类下的前4张图片
         landscapePictures() {
-            return this.categorizedPictures.landscape.slice(0, 4);
+            return this.categorizedPictures.landscape;
         },
         // 对于其他分类，重复上述模式
         catsPictures() {
             return this.categorizedPictures.cats.slice(0, 4);
         },
         buildingsPictures() {
-            return this.categorizedPictures.buildings.slice(0, 4);
+            return this.categorizedPictures.buildings;
         },
         dogsPictures() {
             return this.categorizedPictures.dogs.slice(0, 4);

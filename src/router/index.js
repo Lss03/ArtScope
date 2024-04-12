@@ -27,7 +27,7 @@ const routes = [
     component: AiView
   },
   {
-    path: '/details',
+    path: '/details/:id',
     name: DetailsView,
     component: DetailsView
   },
