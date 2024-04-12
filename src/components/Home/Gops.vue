@@ -1,7 +1,11 @@
 <template>
     <v-container class="container">
         <div>
-            <span class="third-title">风景</span>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="third-title">风景</span>
+                <!-- 添加更多按钮 -->
+                <v-btn text @click="goToMoreView">更多</v-btn>
+            </div>
             <div class="photos-container">
                 <v-row no-gutters>
                     <v-col cols="12" sm="6" md="3" v-for="(image, index) in landscapePictures" :key="index" class="item">
@@ -10,6 +14,7 @@
                 </v-row>
             </div>
         </div>
+
         <!-- 重复上述模式展示其他分类 -->
 
         <div>
@@ -136,6 +141,10 @@ export default {
     },
     //图片详情点击事件：
     methods: {
+        goToMoreView() {
+            // 使用 Vue Router 的编程式导航跳转到 MoreView
+            this.$router.push('/MorePic'); // 确保你的路由名称与这里一致
+        },
         fetchAllCategories() {
             const categories = Object.keys(this.getCategoryTitle());
             categories.forEach(category => {
