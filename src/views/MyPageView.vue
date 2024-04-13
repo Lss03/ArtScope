@@ -1,75 +1,65 @@
 <template>
-  <div>
+  <div v-if="sessionReady"> <!-- 只有在 sessionReady 为 true 时才渲染内容 -->
     <MyPageHeader />
-    <div class="my-container " >
+    <div class="my-container">
       <MyPageInfo class="my-page-info"/>
       <v-divider></v-divider>
-      <v-tabs
-          color="deep-purple-accent-4"
-          align-tabs="center"
-          grow
-      >
-        <v-tab @click="changeComponent(1)" >作品</v-tab>
-        <v-tab @click="changeComponent(2)">收藏</v-tab>
+      <v-tabs color="deep-purple-accent-4" align-tabs="center" grow>
+        <v-tab @click="changeComponent('CreationShow')">作品</v-tab>
+        <v-tab @click="changeComponent('CollectionShow')">收藏</v-tab>
       </v-tabs>
       <component :is="currentComponent"></component>
     </div>
+  </div>
+  <div v-else> <!-- 数据加载时显示的临时内容 -->
+    加载中...
   </div>
 </template>
 
 <script>
 import MyPageHeader from "@/components/MyPage/MyPageHeader.vue";
 import MyPageInfo from "@/components/MyPage/MyPageInfo";
-import ShoppingCart from "@/components/MyPage/ShoppingCart";
-import RepositoryShow from "@/components/MyPage/RepositoryShow";
-import {mapState} from "vuex";
+import CollectionShow from "@/components/MyPage/CollectionShow";
+import CreationShow from "@/components/MyPage/CreationShow";
 
 export default {
   name: 'MyPageView',
   data: () => ({
-    currentComponent: 'ShoppingCart',
+    currentComponent: 'CreationShow',
+    sessionReady: false,
   }),
   methods: {
-    changeComponent(value) {
-      if (value === 1) {
-        this.currentComponent = 'ShoppingCart'
-      } else if (value === 2) {
-        this.currentComponent = 'RepositoryShow'
-      }
+    changeComponent(componentName) {
+      this.currentComponent = componentName;
+    },
+    async initializeSession() {
+      await this.$store.dispatch('user/initializeSession');
+      this.sessionReady = true;
     }
   },
-  computed: {
-    ...mapState({
-      items: (state) => state.userInstance.userInfo,
-    })
+  created() {
+    this.initializeSession();
   },
-  mounted() {
-    this.$store.dispatch("userInstance/fetchUserInfo");
-  },
-
   components: {
     MyPageInfo,
     MyPageHeader,
-    ShoppingCart,
-    RepositoryShow,
+    CreationShow,
+    CollectionShow
   }
 }
 </script>
 
 <style scoped>
-/* 您可以在这里添加样式 */
 .my-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 将子组件在垂直方向上对齐到容器的顶部 */
-  justify-content: flex-start; /* 将子组件在水平方向上对齐到容器的左侧 */
+  align-items: flex-start;
+  justify-content: flex-start;
   margin-inline: 10px;
 }
 .my-page-info {
-  border-radius: 15px; /* 添加圆角 */
-  margin-left: 8px; /* 与侧边栏的留白 */
-  margin-right: 8px; /* 与右侧边界的留白 */
-  /* 如果需要，可以添加更多样式 */
+  border-radius: 15px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
-
 </style>

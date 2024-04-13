@@ -30,7 +30,9 @@
                 <div class="inputBox">
                     <input type="text" placeholder="Username" v-model="register.username">
                 </div>
-
+                <div class="inputBox">
+                    <input type="text" placeholder="Email Address" v-model="register.email">
+                </div>
                 <div class="inputBox">
                     <input type="password" placeholder="Create Password" v-model="register.password">
                 </div>
@@ -49,126 +51,74 @@
 </template>
 <script>
 export default {
-    name: 'LoginForm',
-    props: {
-        // eslint-disable-next-line vue/require-prop-types
-        isRegistering: Boolean // 从父组件接收 isRegistering
+  name: 'LoginForm',
+  props: {
+    isRegistering: Boolean,
+  },
+  data() {
+    return {
+      login: {
+        username: '',
+        password: '',
+      },
+      register: {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      },
+      // 添加本地状态用于显示当前用户名或"神秘用户"
+      currentUsername: '神秘用户',
+    };
+  },
+  methods: {
+    toggleSignup() {
+      this.$emit('toggle-signup');
     },
-    data() {
-        return {
-            users: [], // Simulating a user database
-            login: {
-                username: '',
-                password: ''
-            },
-            register: {
-                username: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            }
-        };
-    },
-    methods: {
-        toggleSignup() {
-            this.$emit('toggle-signup');//？？？子组件向父组件传值
-
-        },
-        // validateLoginForm() {
-        //     this.loginErrors.username = this.login.username ? null : 'Username is required';
-        //     this.loginErrors.password = this.login.password ? null : 'Password is required';
-        //
-        //     // 返回表单是否有效
-        //     return !this.loginErrors.username && !this.loginErrors.password;
-        // },
-        async signIn() {
-            try {
-                // 发送请求到后端验证用户名和密码
-                const response = await fetch('http://122.9.14.18:8080/user/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: this.login.username,
-                        password: this.login.password,
-                    }),
-                });
-
-                const data = await response.json();
-                console.log(data);
-
-                // 检查后端返回的数据，确认登录是否成功
-                if (data.success ) {
-
-                    // 可选：存储其他用户信息
-                    localStorage.setItem('username', this.login.username); // 存储用户名
-
-                    //更新应用状态
-                    const newUsername = localStorage.getItem('username');
-                    //console.log(newUsername);//检查是否存储上
-                    this.$eventBus.$emit('usernameUpdated', newUsername);
-                    // 跳转到个人信息界面
-                    await this.$router.push('/Mypage');
-                } else {
-                    // 登录失败，显示错误信息
-                    alert('Login failed. Please check your username and password.');
-                }
-            } catch (error) {
-                // 处理请求失败的情况
-                console.error('Login error:', error);
-                alert('An error occurred during the login process.');
-            }
-        },
-
-        clearLoginForm() {
-            this.login.username = '';
-            this.login.password = '';
-        },
-        async signUp() {
-            if (this.register.password !== this.register.confirmPassword) {
-                alert("Passwords do not match");
-                return;
-            }
-
-            try {
-                const response = await fetch('http://122.9.14.18:8080/user/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: this.register.username,
-                        password: this.register.password
-                    })
-                });
-                const data = await response.json();
-                console.log(data);
-
-                // 检查后端返回的数据，确认登录是否成功
-                if (data.success ) {
-                    // 可选：存储其他用户信息
-                    localStorage.setItem('username', this.register.username); // 存储用户名
-                    //更新应用状态
-                    const newUsername = localStorage.getItem('username');
-                    //console.log(newUsername);//检查是否存储上
-                    this.$eventBus.$emit('usernameUpdated', newUsername);
-                    // 跳转到个人信息界面
-                    await this.$router.push('/Mypage');
-                } else {
-                    alert("Registration failed");
-                }
-            } catch (error) {
-                console.error('Registration error:', error);
-                alert('An error occurred while registering.');
-            }
-        },
-        clearRegistrationForm() {
-            this.register.username = '';
-            this.register.password = '';
-            this.register.confirmPassword = '';
+    async signIn() {
+      try {
+        const data = await this.$store.dispatch('user/loginUser', {
+          username: this.login.username,
+          password: this.login.password,
+        });
+        if (data && data.success) { // 这里添加了额外的检查
+          await this.$store.dispatch('user/fetchUserDetails', this.login.username);
+          this.currentUsername = this.$store.getters['user/userDetails'].accountName || '神秘用户';
+          console.log('当前用户名',this.currentUsername)
+          await this.$router.push('/Mypage');
+        } else {
+          alert('Login failed. Please check your username and password.');
         }
+      } catch (error) {
+        console.error(error);
+        alert('Login process encountered an error.');
+      }
+    },
+    async signUp() {
+      if (this.register.password !== this.register.confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+      try {
+         await this.$store.dispatch('user/registerUser', {
+          username: this.register.username,
+          email: this.register.email,
+          password: this.register.password,
+        });
+
+        // 注册成功，等待登录和获取用户详细信息完成
+      } catch (error) {
+        console.error(error);
+        alert('Registration process encountered an error.');
+      }
+    },
+  },
+  created() {
+    // 检查用户是否已登录
+    if (this.$store.getters['user/isAuthenticated']) {
+      this.currentUsername = this.$store.getters['user/userDetails'].username;
     }
+  },
 };
 </script>
 <style scoped>

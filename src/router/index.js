@@ -12,39 +12,40 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: HomeView,
+    name: 'Home',
     component: HomeView
   },
-
   {
     path: '/login',
-    name: LoginView,
+    name: 'Login',
     component: LoginView
   },
   {
     path: '/ai',
-    name: AiView,
+    name: 'Ai',
     component: AiView
   },
   {
-    path: '/details/:id',
-    name: DetailsView,
-    component: DetailsView
+    path: '/details/:id', // 确保这里的参数名称与广场页面传递的参数匹配
+    name: 'Details',
+    component: DetailsView,
+    props: true // 启用 props 将路由参数作为 props 传递
   },
   {
-    path: '/MyPage',
-    name: MyPageView,
+    path: '/mypage',
+    name: 'MyPage',
     component: MyPageView
   },
   {
-    path: '/MorePic/:id',
-    name: MoreView,
+    path: '/morepic',
+    name: 'MorePic',
     component: MoreView
   }
 ]
 
 const router = new VueRouter({
+  mode: 'history', // 使用 HTML5 历史模式
   routes
 })
 
-export default router
+export default router;

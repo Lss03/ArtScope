@@ -1,209 +1,88 @@
 <template>
-    <v-container class="container">
-        <div>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span class="third-title">风景</span>
-                <!-- 添加更多按钮 -->
-                <v-btn text @click="goToMoreView('cat')">更多</v-btn>
-            </div>
-            <div class="photos-container">
-                <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in landscapePictures" :key="index" class="item">
-                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
-                    </v-col>
-                </v-row>
-            </div>
-        </div>
-
-        <!-- 重复上述模式展示其他分类 -->
-        <div>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span class="third-title">动物</span>
-                <!-- 添加更多按钮 -->
-                <v-btn text @click="goToMoreView('cat')">更多</v-btn>
-            </div>
-            <div class="photos-container">
-                <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in animalsPictures" :key="index" class="item">
-                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
-                    </v-col>
-                </v-row>
-            </div>
-        </div>
-
-        <div>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span class="third-title">建筑</span>
-                <!-- 添加更多按钮 -->
-                <v-btn text @click="goToMoreView('dog')">更多</v-btn>
-            </div>
-            <div class="photos-container">
-                <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in buildingsPictures" :key="index" class="item">
-                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
-                    </v-col>
-                </v-row>
-            </div>
-        </div>
-        <div>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span class="third-title">艺术</span>
-                <!-- 添加更多按钮 -->
-                <v-btn text @click="goToMoreView('dog')">更多</v-btn>
-            </div>
-            <div class="photos-container">
-                <v-row no-gutters>
-                    <v-col cols="12" sm="6" md="3" v-for="(image, index) in artPictures" :key="index" class="item">
-                        <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">
-                    </v-col>
-                </v-row>
-            </div>
-        </div>
-
-
-    </v-container>
+  <v-container class="container">
+    <div v-for="category in ['cat', 'dog']" :key="category">
+      <span class="third-title">{{ categoryTitles[category] }}</span>
+      <div class="photos-container">
+        <v-row no-gutters>
+          <v-col cols="12" sm="6" md="3" v-for="photo in photos(category)" :key="photo.id" class="item">
+            <img class="item-img" :src="photo.url" alt="" @click="goToPhotoDetail(photo.imageId)">
+          </v-col>
+        </v-row>
+      </div>
+    </div>
+  </v-container>
 </template>
 
+<script>
+export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Gops",
+  computed: {
+    categoryTitles() {
+      return {
+        cat: '猫猫',
+        dog: '小狗'
+      };
+    },
+    photos() {
+      return (category) => this.$store.getters['photos/getPicturesByCategory'](category);
+    }
+  },
+  mounted() {
+    this.initCategories();
+  },
+  methods: {
+    initCategories() {
+      ['cat', 'dog'].forEach(category => {
+        this.$store.dispatch('photos/fetchPhotos', category);
+      });
+    },
+    goToPhotoDetail(photoId) {
+      console.log("Photo ID being passed:", photoId); // 添加这行代码来打印photoId
+      this.$router.push({ name: 'Details', params: { id: photoId } }); // 使用路由的 name 和 params 传递参数
+    }
+  }
+}
+</script>
+
 <style scoped>
-.container{
-    margin: 0;
-    padding: 0;
+.container {
+  margin: 0;
+  padding: 0;
 }
+
 .item {
-    position: relative;
-
+  position: relative;
 }
+
 .photos-container {
-
-    margin-top: 8px; /* 与标题栏的留白 */
-    margin-bottom: 8px;
-    border-radius: 15px; /* 圆角 */
-    box-shadow: 0 2px 4px rgba(0,0,0,.2); /* 阴影 */
-    height: 155px;
-    padding-left:4px;
-
-
+  margin-top: 8px; /* 与标题栏的留白 */
+  margin-bottom: 8px;
+  border-radius: 15px; /* 圆角 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .2); /* 阴影 */
+  height: 155px;
+  padding-left: 4px;
 }
 
 .item-img {
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 8px;
-    height: 155px;
-    width: 98%;
-
-    /* 图片宽度调整为 100% */
-    border-radius: 12px;
-    /* 图片圆角 */
-    display: block;
-    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0,1));
-    transition: transform 0.3s ease;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 8px;
+  height: 155px;
+  width: 98%;
+  border-radius: 12px; /* 图片圆角 */
+  display: block;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 1));
+  transition: transform 0.3s ease;
 }
-.item-img:hover {
 
-    transform: scale(1.05)
+.item-img:hover {
+  transform: scale(1.05)
 }
 
 .third-title {
-    font-family: SimSun, "宋体", sans-serif;
-    padding: 0;
-    font-size: 20px;
-    margin-bottom: 8px;
+  font-family: SimSun, "宋体", sans-serif;
+  padding: 0;
+  font-size: 20px;
+  margin-bottom: 8px;
 }
 </style>
-
-<script>
-
-import axios from "axios";
-
-export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: "Gops",
-    data() {
-        return {
-            categorizedPictures: {
-                landscape: [], // 风景图片
-                cats: [], // 猫猫图片
-                buildings: [], // 建筑图片
-                dogs: [] // 小狗图片
-            }
-        };
-    },
-
-    mounted() {
-        this.fetchAllCategories();
-    },
-    computed: {
-        // 计算属性返回风景分类下的前4张图片
-        landscapePictures() {
-            return this.categorizedPictures.landscape.slice(0,4);
-        },
-        // 对于其他分类，重复上述模式
-        animalsPictures() {
-            return this.categorizedPictures.cats.slice(0, 4);
-        },
-        buildingsPictures() {
-            return this.categorizedPictures.buildings.slice(0, 4);
-        },
-        artPictures() {
-            return this.categorizedPictures.dogs.slice(0, 4);
-        },
-    },
-    //图片详情点击事件：
-    methods: {
-        goToMoreView(category) {
-            console.log("goToMoreView "+category);
-            // 使用 Vue Router 的编程式导航跳转到 MoreView
-            this.$router.push({ path: `/MorePic/${category}` });
-        },
-        handleButtonClick(imageId) {
-            // 跳转到详情页面，并通过URL参数传递图片ID
-            this.$router.push({ path: `/details/${imageId}` });
-        },
-        fetchAllCategories() {
-            const categories = Object.keys(this.getCategoryTitle());
-            categories.forEach(category => {
-                this.fetchPictures(category);
-            });
-        },
-        getCategoryTitle(categoryKey) {
-            // 注意：这里修改为根据实际需要返回分类的映射，如前所述
-            const titles = {
-                landscape: 'cat',
-                cats: 'cat',
-                buildings: 'dog',
-                dogs: 'dog'
-            };
-            if (categoryKey) {
-                return titles[categoryKey] || categoryKey;
-            }
-            return titles;
-        },
-
-        async fetchPictures(category) {
-            try {
-                const params = { category: this.getCategoryTitle(category) };
-                const response = await axios.get('http://122.9.14.18:8080/pictures/byCategory', { params });
-                if (response.data.success && response.data.pictureEntities) {
-                    const pictureUrls = response.data.pictureEntities.map(picture => ({
-                        url: picture.url,
-                        id: picture.imageId,
-                        likesCount: picture.likesCount,
-                        category: picture.category,
-                        uploadTime: picture.uploadTime,
-                        user: picture.user
-                    }));
-                    // 根据分类存储图片
-                    this.$set(this.categorizedPictures, category, pictureUrls);
-                } else {
-                    console.error('Failed to fetch pictures:', response.data.message);
-                }
-            } catch (error) {
-                console.error('Error fetching pictures:', error);
-            }
-        },
-    }
-
-
-
-}
-</script>

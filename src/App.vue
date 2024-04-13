@@ -7,7 +7,7 @@
             <img src="./assets/image/cat.png" alt="用户头像">
           </v-list-item-avatar>
             <v-list-item-content>
-                <v-list-item-title class="white--text">{{ username }}</v-list-item-title>
+                <v-list-item-title class="white--text">{{ displayName }}</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -57,22 +57,27 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
-  // ... 其他选项
-    mounted() {
-        this.$eventBus.$on('usernameUpdated', (newUsername) => {
-            this.username = newUsername;
-        });
-    },
-    data() {
-        return {
-            username: localStorage.getItem('username') || '默认用户名',
-        };
+  data() {
+    return {
+      sessionInitialized: false, // 新增状态，用于追踪会话是否已经初始化
+    };
+  },
+  computed: {
+    displayName() {
+      // 基于 sessionInitialized 状态，返回相应的用户名或“神秘用户”
+      return this.sessionInitialized
+          ? this.$store.getters['user/userDetails'].accountName || '神秘用户'
+          : '神秘用户';
     }
-
-
+  },
+  mounted() {
+    this.$store.dispatch('user/initializeSession').then(() => {
+      // 在会话初始化完成后，更新 sessionInitialized 状态
+      this.sessionInitialized = true;
+    });
+  }
 };
 </script>
 
