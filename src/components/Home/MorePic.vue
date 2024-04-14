@@ -1,22 +1,22 @@
 <template>
     <div>
-        <!--  最上面的标题图需动态改变-->
+
         <div class="ml-n4 mr-n4 mt-n3 background"
              style="height: 200px;display: flex; flex-direction: column; justify-content: center;">
             <div>
                 <div class="ml-12 mt-n4"
                      style="color: white;font-size: 40px;text-align: left; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); ">
-                    春日胜景
+                    {{ categoryDetails.title }}
                 </div>
-                <div class="ml-13 mt-2" style="color: white;text-align: left; ">作品数：70+</div>
+                <div class="ml-13 mt-2" style="color: white;text-align: left; ">{{ categoryDetails.subtitle }}</div>
             </div>
         </div>
+
+
+
         <div class="mt-5">
             <v-row v-for="(row, rowIndex) in imageLayout" :key="rowIndex">
-                <!--          <v-col cols="12" sm="6" md="3" v-for="(image, index) in catsPictures" :key="index" class="item">-->
-                <!--              <img class="item-img" :src="image.url" :alt="`Image ${index}`" @click="handleButtonClick(image.id)">-->
-                <!--          </v-col>-->
-                <v-col v-for="(col, colIndex) in pictures" :key="colIndex" :cols="col.cols">
+                <v-col v-for="(col, colIndex) in photos(categoryId)" :key="colIndex" :cols="col.cols">
                     <v-img
                             :src="col.url"
                             :alt="`Image ${colIndex}`"
@@ -32,22 +32,27 @@
 
 <style scoped>
 .background {
-    background-image: url(@/assets/image/myPage.png);
+   background-image: url(@/assets/image/myPage.png);
     background-repeat: repeat;
 }
+/*.background {*/
+/*    height: 200px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*}*/
 
 .custom-img {
     margin: -1px;
 }
 </style>
 <script>
-import axios from "axios";
+
 
 export default {
     name: "MorePic",
     data() {
         return {
-            pictures: [],
             imageLayout: [
                 [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
                 [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
@@ -56,38 +61,55 @@ export default {
                 [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
                 [{cols: 6}, {cols: 6}],
             ],
+            categories: {
+                cat: {title: "猫咪乐园", subtitle: "作品数：50+", background: "@/assets/image/bg1.jpg"},
+                dog: {title: "狗狗乐园", subtitle: "作品数：40+", background: "@/assets/image/myPage.png"},
+                // 更多类别
+            }
 
         }
     },
     mounted() {
         this.fetchPictures();
+        // this.backgroundStyle();
+    },
+    computed: {
+        photos() {
+            return (category) => this.$store.getters['photos/getPicturesByCategory'](category);
+        },
+        categoryDetails() {
+            console.log("Category ID:", this.categoryId);
+            console.log("Categories:", this.categories[this.categoryId]);
+            return this.categories[this.categoryId];
+        },
+
+
+    },
+    props: {
+        categoryId: {
+            type: [Number, String],
+            required: true,
+        },
     },
     methods: {
         async fetchPictures() {
             try {
-                const params = {category: 'cat'};
-                const response = await axios.get('http://116.63.9.51:8080/pictures/byCategory', {params});
-                if (response.data.success && response.data.pictureEntities) {
-                    // 提取每个图片对象的url属性
-                    const pictureUrls = response.data.pictureEntities.map(picture => ({
-                        url: picture.url,
-                        // 你可以根据需要提取更多属性
-                        id: picture.imageId,
-                        likesCount: picture.likesCount,
-                        category: picture.category,
-                        uploadTime: picture.uploadTime,
-                        user: picture.user
-                    }));
-
-                    // 存储提取的图片URL数组
-                    this.pictures = pictureUrls;
-                } else {
-                    console.error('Failed to fetch pictures:', response.data.message);
-                }
+                await this.$store.dispatch('photos/fetchPhotos', this.categoryId);
             } catch (error) {
-                console.error('Error fetching pictures:', error);
+                console.error("Error fetching pictures:", error);
             }
         },
+        // backgroundStyle() {
+        //     console.log(this.categoryDetails.background); // 查看输出的路径是否正确
+        //     let categoryDetails = this.categoryDetails;
+        //     console.log(require(categoryDetails.background) + ' is the background');
+        //     console.log({
+        //         backgroundImage: 'url(' + require(categoryDetails.background) + ')'
+        //     });
+        //     return {
+        //         backgroundImage: 'url(' + require(categoryDetails.background) + ')'
+        //     };
+        // }
     }
 }
 </script>

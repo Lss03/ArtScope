@@ -37,7 +37,7 @@ const routes = [
     component: MyPageView
   },
   {
-    path: '/morepic',
+    path: '/morepic/:id',
     name: 'MorePic',
     component: MoreView
   }
