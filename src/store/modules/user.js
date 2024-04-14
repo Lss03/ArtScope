@@ -26,6 +26,9 @@ export default {
         SET_USER_INFO(state, userInfo) {
             state.userInfo = userInfo;
         },
+        SET_USER_PICTURES(state, userPictures) {
+            state.userDetails.pictures = userPictures;
+        },
     },
     actions: {
         // store/modules/user.js 中的 loginUser action
@@ -69,7 +72,9 @@ export default {
                 if (response.data.success && response.data.success) {
                     commit('SET_USER_DETAILS', response.data.user);
                     commit('SET_USER_INFO', response.data.user);
-                    // console.log(response.data.user)
+                    commit('SET_USER_PICTURES', response.data.pictures);
+                    console.log(response.data.pictures)
+
                 } else {
                     commit('CLEAR_USER_STATE');
                 }
@@ -96,6 +101,7 @@ export default {
             return state.userDetails;
         },
         userPictures(state) {
+            console.log(state.userDetails.pictures)
             return state.userDetails.pictures || [];
         },
         userInfo(state) {

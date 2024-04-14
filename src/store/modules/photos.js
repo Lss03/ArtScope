@@ -33,9 +33,16 @@ export default {
         },
 
         // eslint-disable-next-line no-unused-vars
-        async uploadPhoto({ commit }, formData) {
-            const photoDetails = await uploadPicture(formData);
-            return photoDetails;
+        async uploadPhoto({ commit, dispatch }, formData) {
+            try {
+                const photoDetails = await uploadPicture(formData);
+                // 假设上传成功后，你希望重新获取最新的图片列表
+                dispatch('fetchPhotos', formData.get('category'));
+                return photoDetails; // 上传成功后的图片详情
+            } catch (error) {
+                console.error('上传图片失败:', error);
+                throw error; // 抛出错误让组件能够捕获并处理
+            }
         },
         // eslint-disable-next-line no-unused-vars
         async fetchPhotoDetails({ commit, dispatch }, imageId) {

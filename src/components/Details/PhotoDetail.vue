@@ -109,9 +109,6 @@ export default {
     },
     comments() {
       return this.photoDetails.commentEntityList || [];
-    },
-    pictureDetails() {
-      return this.$store.getters['photos/photoDetails'];
     }
   },
   methods: {
