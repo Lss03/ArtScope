@@ -1,86 +1,100 @@
 <template>
-  <v-container fluid>
-    <v-row v-if="fetchSuccess">
-      <v-col cols="12" md="8">
-        <v-img :src="photoDetails.pictureEntity.url" aspect-ratio="1.77" class="elevation-2" rounded></v-img>
-      </v-col>
+  <v-container fluid class="ml-n2 mr-n6">
+    <!-- 一整个卡片-->
+    <div v-if="fetchSuccess" >
+      <v-row style="height:450px;width: 100%">
+        <!-- 左侧图片-->
+        <v-col cols="8">
+          <v-img :src="photoDetails.pictureEntity.url" aspect-ratio="1.77"  rounded></v-img>
+        </v-col>
+        <!-- 右侧部分-->
+        <v-col cols="4" >
+          <!-- 右侧上方用户信息-->
+          <div class="mr-n7 ml-n2" style="border: gainsboro solid 0.5px">
+            <!-- 用户头像和用户名 -->
+            <div style="display: flex; align-items: center; box-shadow:2px 2px 1px gray;border: black solid 1px">
+              <v-avatar size="60">
+                <img src="../../assets/image/panda.png">
+              </v-avatar>
+              <p class="font-weight-bold ml-3 mt-3" style="display: flex; align-items: center; font-size: 20px">{{ photoDetails.userEntity.accountName }}</p>
+              <v-spacer></v-spacer>
+              <v-btn dark class="ml-11 mr-1 " rounded >
+                <v-icon left>mdi-plus</v-icon>
+                关注
+              </v-btn>
 
-      <v-col cols="12" md="4">
-        <v-card class="elevation-2" outlined>
-          <v-card-title>
-            <v-avatar size="130" class="mr-3">
-              <img src="../../assets/image/panda.png">
-            </v-avatar>
-            作者：<span class="pink--text">{{ photoDetails.userEntity.accountName }}</span>
-            <v-btn color="blue" class="white--text ma-2">
-              <v-icon left>mdi-plus</v-icon>
-              关注
-            </v-btn>
-          </v-card-title>
-
-          <v-card-text>
-            <div class="subtitle-1 mb-1">类别：{{ photoDetails.pictureEntity.category }}</div>
-            <div class="subtitle-1 mb-1">创作意图：{{ photoDetails.pictureEntity.creationIntent }}</div>
-            <div class="subtitle-1 mb-1">创作日期：{{ photoDetails.pictureEntity.creationTime }}</div>
-            <v-chip class="ma-2" color="amber" text-color="white">
-              <v-icon left>mdi-star-outline</v-icon>
-              {{ photoDetails.pictureEntity.likesCount }} Likes
-            </v-chip>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row class="mt-4" v-else>
-      <v-col cols="12">
-        正在加载图片详情...
-      </v-col>
-    </v-row>
-    <!-- 评论提交表单 -->
-    <v-row class="mt-4">
-      <v-col cols="12">
-        <v-card class="elevation-2" outlined>
-          <v-card-title>添加评论</v-card-title>
-          <v-card-actions>
-            <v-text-field
-                label="写下你的评论..."
-                v-model="newComment"
-                outlined
-                dense
-                class="flex-grow-1"
-            ></v-text-field>
-            <v-btn color="primary" @click="submitComment">提交</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <!-- 评论列表展示 -->
-    <v-row class="mt-4">
-      <v-col cols="12">
-        <v-card class="elevation-2" outlined>
-          <v-card-title>评论</v-card-title>
-          <v-card-text>
-            <div v-if="comments.length > 0">
-              <v-list>
-                <v-list-item v-for="comment in comments" :key="comment.id" two-line>
-                  <v-list-item-avatar color="grey lighten-4">
-                    <v-icon>mdi-account-circle</v-icon>
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title>{{ comment.user.accountName }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ comment.content }}</v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-icon color="blue">mdi-thumb-up</v-icon>
-                    <span>{{ comment.likesCount }}</span>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list>
             </div>
-            <div v-else class="text-center">暂无评论</div>
-          </v-card-text>
-        </v-card>
+            <!-- 类别等文字 -->
+            <div class="ml-2 mt-2 mr-n5">
+              <div class="mb-2">类别：{{ photoDetails.pictureEntity.category }}</div>
+              <div class="mb-2">创作意图：{{ photoDetails.pictureEntity.creationIntent }}</div>
+              <div class="mb-3">创作日期：{{ photoDetails.pictureEntity.creationTime }}</div>
+              <div class="mb-3" style="font-weight: bolder">支持这张图片！
+                <v-btn class="ml-2" color="red" rounded  dark>
+                  <v-icon left>mdi-thumb-up</v-icon>
+                  {{ photoDetails.pictureEntity.likesCount }}
+                </v-btn>
+              </div>
+              <div class="mb-3" style="font-weight: bolder">收藏这张图片！
+                <v-btn class="ml-2" color="amber" rounded  dark>
+                  <v-icon left>mdi-heart</v-icon>
+                  <!-- 这里写为收藏参数-->
+                  {{ photoDetails.pictureEntity.likesCount }}
+                </v-btn>
+              </div>
+            </div>
+          </div>
+          <!-- 右侧下方评论-->
+          <div class="mt-6 ml-n2">
+            <!-- 发表评论-->
+            <div >
+              <p style="font-weight: bolder;font-size: 20px; color: gray" class="mb-6">添加评论</p>
+              <v-row>
+                <v-col cols="10" >
+                  <v-text-field v-model="newComment" outlined dense color="#00838F" placeholder="维护社区环境，注意良好发言~" style="font-size: 14px "></v-text-field>
+                </v-col>
+                <v-col cols="2" >
+                  <v-btn @click="submitComment" color="white" variant="outlined">提交</v-btn>
+                </v-col>
+              </v-row>
+            </div>
+
+          </div>
+        </v-col>
+      </v-row>
+      <v-divider ></v-divider>
+      <v-row>
+        <v-col cols="12">
+          <!-- 评论内容 -->
+          <div>
+            <p style="font-weight: bolder;font-size: 20px;" class="mt-5 ml-5">评论</p>
+            <div>
+              <div v-if="comments.length > 0">
+                <v-list>
+                  <v-list-item v-for="comment in comments" :key="comment.id" two-line style="border-bottom: gainsboro 1px solid">
+                    <v-list-item-avatar color="grey lighten-4">
+                      <v-icon>mdi-account-circle</v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title style="font-weight: bolder">{{ comment.user.accountName }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ comment.content }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-action class="ml-t">
+                      <v-icon color="gainsboro" @click="turnColor" class="mt-4">mdi-thumb-up</v-icon>
+                      <span>{{ comment.likesCount }}</span>
+                    </v-list-item-action>
+                  </v-list-item>
+                </v-list>
+              </div>
+              <div v-else class="text-center">暂无评论</div>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </div>
+    <v-row v-else>
+      <v-col>
+        正在加载图片详情...
       </v-col>
     </v-row>
   </v-container>
@@ -112,6 +126,9 @@ export default {
     }
   },
   methods: {
+    turnColor(){
+
+    },
     async fetchPhotoDetails() {
       try {
         await this.$store.dispatch('photos/fetchPhotoDetails', this.photoId);
@@ -142,6 +159,7 @@ export default {
   mounted() {
     this.fetchPhotoDetails();
   },
+
 };
 </script>
 
