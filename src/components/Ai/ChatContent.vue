@@ -187,6 +187,8 @@ export default {
         const response = await this.$store.dispatch('photos/uploadPhoto', formData);
         console.log('图片上传成功', response);
         // 关闭对话框并重置表单
+        // 关闭保存确认对话框
+        this.showConfirmationDialog = false;
         this.showCategoryDialog = false;
         this.selectedCategory = null;
         this.creationIntent = '';
