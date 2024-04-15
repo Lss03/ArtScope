@@ -8,19 +8,6 @@
 </template>
 
 <style scoped>
-.enlarge-image {
-  transition: transform 0.3s ease-in-out;
-}
-
-.enlarge-image:hover {
-  transform: scale(1.1);
-}
-
-.title {
-  font-size: 190%;
-  text-align: center;
-
-}
 
 /* 如果需要，可以在这里添加更多样式 */
 </style>

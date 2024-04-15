@@ -29,8 +29,16 @@
                         <!-- 类别等文字 -->
                         <div class="ml-2 mt-2 mr-n5">
                             <div class="mb-2">类别：{{ photoDetails.pictureEntity.category }}</div>
-                            <div class="mb-2">创作意图：{{ photoDetails.pictureEntity.creationIntent }}</div>
-                            <div class="mb-3">创作日期：{{ photoDetails.pictureEntity.creationTime }}</div>
+                          <div class="mb-2">
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <p v-bind="attrs" v-on="on" class="truncate">创作意图：{{ photoDetails.pictureEntity.creationIntent }}</p>
+                              </template>
+                              <span>{{ photoDetails.pictureEntity.creationIntent }}</span>
+                            </v-tooltip>
+                          </div>
+
+                          <div class="mb-3">创作日期：{{ photoDetails.pictureEntity.creationTime }}</div>
                             <div class="mb-3" style="font-weight: bolder">支持这张图片！
                                 <v-btn @click="toggleLike" class="ml-2" color="red" rounded dark>
                                     <v-icon left>mdi-thumb-up</v-icon>
@@ -248,5 +256,11 @@ export default {
 </script>
 
 <style scoped>
-/* 您的样式保持不变 */
+.truncate {
+  max-width: 200px; /* 调整这个宽度以适应你的布局需求 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 其他样式 */
 </style>
