@@ -107,7 +107,6 @@ export default {
       selectedCategory: null,
       creationIntent: '',
       categories: [
-        { name: '猫测试', value: 'cat' },
         { name: '自然风景', value: 'landscape' },
         { name: '二次元', value: 'anime' },
         { name: '建筑景观', value: 'architecture' },

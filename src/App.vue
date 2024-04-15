@@ -4,7 +4,13 @@
             <v-list>
                 <v-list-item>
                     <v-list-item-avatar>
-                        <img :src="avatarUrl" alt="用户头像">
+                        <img :src="avatarUrl" alt="用户头像" @click="uploadAvatar">
+                        <input
+                                type="file"
+                                ref="avatarUploader"
+                                @change="handleAvatarChange"
+                                style="display: none"
+                        />
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title class="white--text">{{ displayName }}</v-list-item-title>
@@ -57,6 +63,8 @@
 </template>
 
 <script>
+
+
 export default {
     name: 'App',
     data() {
@@ -67,10 +75,9 @@ export default {
     computed: {
         displayName() {
             // 基于 sessionInitialized 状态，返回相应的用户名或“神秘用户”
-           return  this.sessionInitialized
+            return this.sessionInitialized
                 ? this.$store.getters['user/userDetails'].accountName || '神秘用户'
                 : '神秘用户';
-
         },
         avatarUrl() {
             // 如果会话已初始化并且用户有头像URL，则返回，否则返回默认头像
@@ -84,6 +91,23 @@ export default {
             // 在会话初始化完成后，更新 sessionInitialized 状态
             this.sessionInitialized = true;
         });
+    },
+    methods: {
+        uploadAvatar() {
+            this.$refs.avatarUploader.click();
+        },
+        handleAvatarChange(event) {
+
+            const username = this.$store.getters['user/userDetails'].accountName || '神秘用户';
+            console.log('用户名：', username);
+            const file = event.target.files[0];
+            console.log('上传的文件：', file);
+            this.$store.dispatch('user/updateUserInfo', {username: username, avatarFile: file});
+            //     .then(() => {
+            //     // 更新用户头像后，重新获取用户信息
+            //     this.$store.dispatch('user/fetchUserDetails', username);
+            // });
+        }
     }
 };
 </script>

@@ -1,4 +1,4 @@
-import { loginUser, registerUser, fetchUserInfo } from '@/api/user';
+import { loginUser, registerUser, fetchUserInfo,updateUserInfo } from '@/api/user';
 
 export default {
     namespaced: true,
@@ -33,11 +33,34 @@ export default {
         SET_FAVORITE_PICTURES(state, favoritePictures) {
             state.favoritePictures = favoritePictures; // 新增mutation
         },
+        SET_USER_AVATAR(state, url) {
+            state.userDetails.avatarUrl = url;
+        },
     },
     actions: {
+        async updateUserInfo({commit} , formData) {
+            try {
+                console.log("上传头像"+formData);
+                const response = await updateUserInfo(formData);
+                console.log("上传response:"+response.data);
+                // 成功更新头像后的处理逻辑
+                if (response.data.success) {
+                    // 可能需要根据您的应用需求来更新状态或通知用户
+                    console.log("新头像："+response.data.userEntity.avatarUrl);
+                    commit('SET_USER_AVATAR', response.data.userEntity.avatarUrl); // 假设响应中有新头像的 URL
+                } else {
+                    // 错误处理
+                    console.error(response.data.message);
+                }
+            } catch (error) {
+                // 错误响应处理
+                console.error('更新头像时出错:', error);
+            }
+        },
         // store/modules/user.js 中的 loginUser action
         async registerUser({ dispatch, commit }, userData) {
             try {
+                console.log("注册用户数据："+userData);
                 const response = await registerUser(userData);
                 if (response.data.success) {
                     commit('SET_REGISTER_STATUS', 'success');

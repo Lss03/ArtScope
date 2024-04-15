@@ -11,5 +11,16 @@ export const registerUser = async (userData) => {
 };
 
 export const fetchUserInfo = async (username) => {
-    return axios.get(`${BASE_URL}/user/info`, { params: { username } });
+    return axios.get(`${BASE_URL}/user/info`, {params: {username}});
+};
+export const updateUserInfo = async (formData) => {
+    return axios.put(`${BASE_URL}/user/update`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+};
+
+export const fetchUserAvatar = async (username) => {
+    return axios.get(`${BASE_URL}/user/avatar`, {params: {username}});
 };
