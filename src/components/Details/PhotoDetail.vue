@@ -29,16 +29,17 @@
                         <!-- 类别等文字 -->
                         <div class="ml-2 mt-2 mr-n5">
                             <div class="mb-2">类别：{{ photoDetails.pictureEntity.category }}</div>
-                          <div class="mb-2">
-                            <v-tooltip bottom>
-                              <template v-slot:activator="{ on, attrs }">
-                                <p v-bind="attrs" v-on="on" class="truncate">创作意图：{{ photoDetails.pictureEntity.creationIntent }}</p>
-                              </template>
-                              <span>{{ photoDetails.pictureEntity.creationIntent }}</span>
-                            </v-tooltip>
-                          </div>
+                            <div class="mb-2">
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <p v-bind="attrs" v-on="on" class="truncate">
+                                            创作意图：{{ photoDetails.pictureEntity.creationIntent }}</p>
+                                    </template>
+                                    <span>{{ photoDetails.pictureEntity.creationIntent }}</span>
+                                </v-tooltip>
+                            </div>
 
-                          <div class="mb-3">创作日期：{{ photoDetails.pictureEntity.creationTime }}</div>
+                            <div class="mb-3">创作日期：{{ photoDetails.pictureEntity.creationTime }}</div>
                             <div class="mb-3" style="font-weight: bolder">支持这张图片！
                                 <v-btn @click="toggleLike" class="ml-2" color="red" rounded dark>
                                     <v-icon left>mdi-thumb-up</v-icon>
@@ -86,7 +87,7 @@
                                     <v-list-item v-for="comment in comments" :key="comment.id" two-line
                                                  style="border-bottom: gainsboro 1px solid">
                                         <v-list-item-avatar color="grey lighten-4">
-                                            <v-icon>mdi-account-circle</v-icon>
+                                            <v-img :src="user.avatarUrl" alt="User Avatar"></v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title style="font-weight: bolder">{{
@@ -121,6 +122,8 @@
 <script>
 
 
+import {mapState} from "vuex";
+
 export default {
     name: 'PhotoDetail',
     props: {
@@ -137,6 +140,11 @@ export default {
         };
     },
     computed: {
+
+        ...mapState('user', {
+            user: state => state.userInfo
+        }),
+
         photoDetails() {
             console.log('图片详情:', this.$store.getters['photos/photoDetails']);
             return this.$store.getters['photos/photoDetails'];
@@ -257,10 +265,11 @@ export default {
 
 <style scoped>
 .truncate {
-  max-width: 200px; /* 调整这个宽度以适应你的布局需求 */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    max-width: 200px; /* 调整这个宽度以适应你的布局需求 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 /* 其他样式 */
 </style>
