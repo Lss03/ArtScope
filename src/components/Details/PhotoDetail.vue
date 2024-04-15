@@ -136,60 +136,60 @@ export default {
         }
     },
     methods: {
-        toggleFavorite() {
-            this.getUserInfoAndToggleFavorite();
-        },
-        async getUserInfoAndToggleFavorite() {
-            try {
-                const user = this.$store.getters['user/userDetails'];
-                console.log('用户信息:', user);
-                const isFavorited = user.favoritePictures.some(
-                    (picture) => picture.id === this.photoId
-                );
-                console.log('是否已收藏:', isFavorited);
-                // 根据是否已经收藏过来切换收藏状态
-                const action = isFavorited ? 'removeFavorite' : 'addFavorite';
-                console.log('操作:', action);
-                await this.saveFavoriteToServer(action);
-
-            } catch (error) {
-                console.error('An error occurred while fetching user info:', error);
-            }
-        },
-        async saveFavoriteToServer(action) {
-            const imageId = this.photoId;
-            const userId = this.$store.getters['user/userDetails'].id;
-            if (action === 'addFavorite') {
-                await this.$store.dispatch('photos/saveFavorite', {userId, imageId});
-                this.photoDetails.pictureEntity.favoriteCount += 1;
-            } else {
-                await this.$store.dispatch('photos/removeFavorite', {userId, imageId});
-                this.photoDetails.pictureEntity.favoriteCount -= 1;
-            }
-        },
-
-
         // toggleFavorite() {
-        //     this.favorited = !this.favorited;
-        //     this.favorited ? this.photoDetails.pictureEntity.favoriteCount++ : this.photoDetails.pictureEntity.favoriteCount--;
-        //     console.log('收藏状态:', this.favorited);
-        //     // 调用API保存到服务器（如果适用）
-        //     this.saveFavoriteToServer();
+        //     this.getUserInfoAndToggleFavorite();
         // },
-
-        // async saveFavoriteToServer() {
-        //     const imageId = this.photoId;
-        //     const userId = this.$store.getters['user/userDetails'].id.toString();
-        //     // const userId=4;
-        //     // const imageId=1;
-        //     console.log('保存收藏状态到服务器:', {userId, imageId});
+        // async getUserInfoAndToggleFavorite() {
         //     try {
-        //         // 调用API保存到服务器
-        //         await this.$store.dispatch('photos/saveFavorite', {userId, imageId});
+        //         const user = this.$store.getters['user/userDetails'];
+        //         console.log('用户信息:', user);
+        //         const isFavorited = user.favoritePictures.some(
+        //             (picture) => picture.id === this.photoId
+        //         );
+        //         console.log('是否已收藏:', isFavorited);
+        //         // 根据是否已经收藏过来切换收藏状态
+        //         const action = isFavorited ? 'removeFavorite' : 'addFavorite';
+        //         console.log('操作:', action);
+        //         await this.saveFavoriteToServer(action);
+        //
         //     } catch (error) {
-        //         console.error('保存收藏状态失败:', error);
+        //         console.error('An error occurred while fetching user info:', error);
         //     }
         // },
+        // async saveFavoriteToServer(action) {
+        //     const imageId = this.photoId;
+        //     const userId = this.$store.getters['user/userDetails'].id;
+        //     if (action === 'addFavorite') {
+        //         await this.$store.dispatch('photos/saveFavorite', {userId, imageId});
+        //         this.photoDetails.pictureEntity.favoriteCount += 1;
+        //     } else {
+        //         await this.$store.dispatch('photos/removeFavorite', {userId, imageId});
+        //         this.photoDetails.pictureEntity.favoriteCount -= 1;
+        //     }
+        // },
+
+
+        toggleFavorite() {
+            this.favorited = !this.favorited;
+            this.favorited ? this.photoDetails.pictureEntity.favoriteCount++ : this.photoDetails.pictureEntity.favoriteCount--;
+            console.log('收藏状态:', this.favorited);
+            // 调用API保存到服务器（如果适用）
+            this.saveFavoriteToServer();
+        },
+
+        async saveFavoriteToServer() {
+            const imageId = this.photoId;
+            const userId = this.$store.getters['user/userDetails'].id.toString();
+            // const userId=4;
+            // const imageId=1;
+            console.log('保存收藏状态到服务器:', {userId, imageId});
+            try {
+                // 调用API保存到服务器
+                await this.$store.dispatch('photos/saveFavorite', {userId, imageId});
+            } catch (error) {
+                console.error('保存收藏状态失败:', error);
+            }
+        },
         toggleLike() {
             this.liked = !this.liked;
             this.liked ? this.photoDetails.pictureEntity.likesCount++ : this.photoDetails.pictureEntity.likesCount--;
