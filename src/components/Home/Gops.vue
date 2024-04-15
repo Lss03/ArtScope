@@ -1,6 +1,6 @@
 <template>
     <v-container class="container">
-        <div v-for="category in ['dog','landscape', 'anime','architecture','animals','realism']" :key="category">
+        <div v-for="category in ['landscape', 'anime','architecture','animals','realism']" :key="category">
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <span class="third-title">{{ categoryTitles[category] }}</span>
                 <!-- 添加更多按钮 -->
@@ -24,7 +24,6 @@ export default {
     computed: {
         categoryTitles() {
             return {
-                dog:'测试收藏',
                 landscape: '自然风景',
                 anime: '二次元',
                 architecture: '建筑景观',
@@ -41,7 +40,7 @@ export default {
     },
     methods: {
         initCategories() {
-            ['dog','landscape', 'anime','architecture','animals','realism'].forEach(category => {
+            ['landscape', 'anime','architecture','animals','realism'].forEach(category => {
                 this.$store.dispatch('photos/fetchPhotos', category);
             });
         },

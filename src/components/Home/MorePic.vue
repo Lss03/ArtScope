@@ -76,7 +76,6 @@ export default {
                 [{cols: 6}, {cols: 6}],
             ],
             categories: {
-                cat:{title: "测试", subtitle: "作品数：20+", background: "@/assets/image/bg1.jpg"},
                 landscape: {title: "自然风景", subtitle: "作品数：50+", background: "@/assets/image/bg1.jpg"},
                 anime: {title: "二次元", subtitle: "作品数：60+", background: "@/assets/image/bg1.jpg"},
                 architecture: {title: "建筑景观", subtitle: "作品数：30+", background: "@/assets/image/bg1.jpg"},
