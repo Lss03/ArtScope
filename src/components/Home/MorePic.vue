@@ -12,20 +12,32 @@
             </div>
         </div>
 
-
-
         <div class="mt-5">
             <v-row v-for="(row, rowIndex) in imageLayout" :key="rowIndex">
-                <v-col v-for="(col, colIndex) in photos(categoryId)" :key="colIndex" :cols="col.cols">
+                <v-col v-for="(col, colIndex) in row" :key="colIndex" :cols="col.cols">
                     <v-img
-                            :src="col.url"
-                            :alt="`Image ${colIndex}`"
-                            class="custom-img"
-                            cover
+                        v-if="photos(categoryId).length > rowIndex * row.length + colIndex"
+                        :src="photos(categoryId)[rowIndex * row.length + colIndex].url"
+                        :alt="`Image ${rowIndex * row.length + colIndex}`"
+                        class="custom-img"
+                        cover
                     ></v-img>
                 </v-col>
             </v-row>
         </div>
+
+<!--        <div class="mt-5">-->
+<!--            <v-row v-for="(row, rowIndex) in imageLayout" :key="rowIndex">-->
+<!--                <v-col v-for="(col, colIndex) in photos(categoryId)" :key="colIndex" :cols="col.cols">-->
+<!--                    <v-img-->
+<!--                            :src="col.url"-->
+<!--                            :alt="`Image ${colIndex}`"-->
+<!--                            class="custom-img"-->
+<!--                            cover-->
+<!--                    ></v-img>-->
+<!--                </v-col>-->
+<!--            </v-row>-->
+<!--        </div>-->
 
     </div>
 </template>
@@ -43,6 +55,8 @@
 /*}*/
 
 .custom-img {
+    /*height: 150px; !* 固定高度为150像素 *!*/
+    /*width: auto; !* 宽度自动调整以保持图片比例 *!*/
     margin: -1px;
 }
 </style>
@@ -62,9 +76,13 @@ export default {
                 [{cols: 6}, {cols: 6}],
             ],
             categories: {
-                cat: {title: "猫咪乐园", subtitle: "作品数：50+", background: "@/assets/image/bg1.jpg"},
-                dog: {title: "狗狗乐园", subtitle: "作品数：40+", background: "@/assets/image/myPage.png"},
-                // 更多类别
+                cat:{title: "测试", subtitle: "作品数：20+", background: "@/assets/image/bg1.jpg"},
+                landscape: {title: "自然风景", subtitle: "作品数：50+", background: "@/assets/image/bg1.jpg"},
+                anime: {title: "二次元", subtitle: "作品数：60+", background: "@/assets/image/bg1.jpg"},
+                architecture: {title: "建筑景观", subtitle: "作品数：30+", background: "@/assets/image/bg1.jpg"},
+                animals:{title: "动物", subtitle: "作品数：40+", background: "@/assets/image/bg1.jpg"},
+                realism:{title: "人物写实", subtitle: "作品数：20+", background: "@/assets/image/bg1.jpg"},
+
             }
 
         }

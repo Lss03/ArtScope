@@ -7,6 +7,7 @@ export default {
         loginStatus: '',
         registerStatus: '',
         userInfo: {},
+        favoritePictures: [],
     },
     mutations: {
         SET_USER_DETAILS(state, userDetails) {
@@ -28,6 +29,9 @@ export default {
         },
         SET_USER_PICTURES(state, userPictures) {
             state.userDetails.pictures = userPictures;
+        },
+        SET_FAVORITE_PICTURES(state, favoritePictures) {
+            state.favoritePictures = favoritePictures; // 新增mutation
         },
     },
     actions: {
@@ -73,7 +77,8 @@ export default {
                     commit('SET_USER_DETAILS', response.data.user);
                     commit('SET_USER_INFO', response.data.user);
                     commit('SET_USER_PICTURES', response.data.pictures);
-                    console.log(response.data.pictures)
+                    commit('SET_FAVORITE_PICTURES', response.data.favoritePictures); // 更新收藏图片列表
+                    console.log('图片收藏列表：'+response.data.favoritePictures);
 
                 } else {
                     commit('CLEAR_USER_STATE');
@@ -106,6 +111,9 @@ export default {
         },
         userInfo(state) {
             return state.userInfo;
+        },
+        favoritePictures(state) {
+            return state.favoritePictures;
         },
     }
 };

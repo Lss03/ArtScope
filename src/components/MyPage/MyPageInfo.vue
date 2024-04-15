@@ -4,7 +4,7 @@
       <v-col>
         <div class="ml-2 mr-5 mt-2 background" style="border-radius: 15px;height: 200px;display: flex; flex-direction: column; align-items: center; justify-content: center;">
           <v-avatar size="90" class="ml-4">
-            <v-img src="https://sakura-cjq.oss-rg-china-mainland.aliyuncs.com/homepage/lazy_cat.png" alt="User Avatar"></v-img>
+            <v-img :src="user.avatarUrl" alt="User Avatar"></v-img>
           </v-avatar>
           <div class="mt-n4 ml-4" style="display: flex; flex-direction: column; align-items: center; justify-content: center;font-size: 16px;background-color: rgba(255, 255, 255, 0.5);border-radius: 15px;width: 300px;box-shadow:2px 2px 3px black">
             <div class="mt-5">{{ user.accountName || '未登录' }}</div>
@@ -31,6 +31,8 @@ export default {
     if (this.user && this.user.accountName) {
       this.$store.dispatch('user/fetchUserDetails', this.user.accountName);
     }
+    //user.avatarUrl
+      console.log('user:', this.user.avatarUrl);
   },
 };
 </script>

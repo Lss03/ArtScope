@@ -1,17 +1,21 @@
 // src/store/modules/photos.js
-import { fetchPicturesByCategory, uploadPicture, fetchPictureDetails, likePicture } from '@/api/photos';
+import {fetchPicturesByCategory, uploadPicture, fetchPictureDetails, saveLike, addFavorite,removeFavorite} from '@/api/photos';
 
 export default {
     namespaced: true,
     state: {
         photos: {
-            cat: [],
-            dog: []
+            dog: [],
+            landscape: [],
+            anime: [],
+            architecture: [],
+            animals: [],
+            realism: [],
         },
         photoDetails: {}
     },
     mutations: {
-        SET_PHOTOS(state, { category, photos }) {
+        SET_PHOTOS(state, {category, photos}) {
             state.photos[category] = photos;
         },
         SET_PHOTO_DETAILS(state, photoDetails) {
@@ -24,7 +28,7 @@ export default {
         }
     },
     actions: {
-        async fetchPhotos({ commit }, category) {
+        async fetchPhotos({commit}, category) {
             const pictureEntities = await fetchPicturesByCategory(category);
             commit('SET_PHOTOS', {
                 category,
@@ -33,7 +37,7 @@ export default {
         },
 
         // eslint-disable-next-line no-unused-vars
-        async uploadPhoto({ commit, dispatch }, formData) {
+        async uploadPhoto({commit, dispatch}, formData) {
             try {
                 const photoDetails = await uploadPicture(formData);
                 // 假设上传成功后，你希望重新获取最新的图片列表
@@ -45,19 +49,31 @@ export default {
             }
         },
         // eslint-disable-next-line no-unused-vars
-        async fetchPhotoDetails({ commit, dispatch }, imageId) {
+        async fetchPhotoDetails({commit, dispatch}, imageId) {
             const photoDetails = await fetchPictureDetails(imageId);
             commit('SET_PHOTO_DETAILS', photoDetails);
 
         },
-        async likePhoto(_, imageId) {
-            const response = await likePicture(imageId);
+
+        // eslint-disable-next-line no-unused-vars
+        updatePhotoDetailsComments({commit, state}, photoDetails) {
+            commit('UPDATE_PHOTO_DETAILS_COMMENTS', photoDetails.commentEntityList);
+            commit('SET_PHOTO_DETAILS', photoDetails);
+        },
+        // eslint-disable-next-line no-unused-vars
+        async saveLike({commit, state}, imageId) {
+            const response = await saveLike(imageId);
             return response;
         },
         // eslint-disable-next-line no-unused-vars
-        updatePhotoDetailsComments({ commit, state }, photoDetails) {
-            commit('UPDATE_PHOTO_DETAILS_COMMENTS', photoDetails.commentEntityList);
-            commit('SET_PHOTO_DETAILS', photoDetails);
+        async addFavorite({commit, state}, {userId, imageId}) {
+            const response = await addFavorite(userId, imageId);
+            return response;
+        },
+// eslint-disable-next-line no-unused-vars
+        async removeFavorite({commit, state}, {userId, imageId}) {
+            const response = await removeFavorite(userId, imageId);
+            return response;
         }
     },
     getters: {
