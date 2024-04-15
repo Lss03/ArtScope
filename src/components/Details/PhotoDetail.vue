@@ -111,6 +111,8 @@
 </template>
 
 <script>
+
+
 export default {
     name: 'PhotoDetail',
     props: {
@@ -179,13 +181,13 @@ export default {
 
         async saveFavoriteToServer() {
             const imageId = this.photoId;
-            const userId = this.$store.getters['user/userDetails'].id.toString();
+            const userId = this.$store.getters['user/userDetails'].id;
             // const userId=4;
             // const imageId=1;
             console.log('保存收藏状态到服务器:', {userId, imageId});
             try {
                 // 调用API保存到服务器
-                await this.$store.dispatch('photos/saveFavorite', {userId, imageId});
+                await this.$store.dispatch('photos/addFavorite', {userId, imageId});
             } catch (error) {
                 console.error('保存收藏状态失败:', error);
             }
