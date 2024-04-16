@@ -71,9 +71,9 @@ export default {
                 [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
                 [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
                 [{cols: 6}, {cols: 6}], // 第三行显示两张图片
-                [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
-                [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
-                [{cols: 6}, {cols: 6}],
+                // [{cols: 4}, {cols: 4}, {cols: 4}], // 第一行显示三张图片
+                // [{cols: 3}, {cols: 3}, {cols: 3}, {cols: 3}], // 第二行显示四张图片
+                // [{cols: 6}, {cols: 6}],
             ],
             categories: {
                 landscape: {title: "自然风景", subtitle: "作品数：50+", background: "@/assets/image/bg1.jpg"},

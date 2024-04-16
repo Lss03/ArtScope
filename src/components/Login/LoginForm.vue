@@ -85,7 +85,7 @@ export default {
           await this.$store.dispatch('user/fetchUserDetails', this.login.username);
           this.currentUsername = this.$store.getters['user/userDetails'].accountName || '神秘用户';
           console.log('当前用户名',this.currentUsername)
-          await this.$router.push('/Mypage');
+          await this.$router.push('/Home');
         } else {
           alert('Login failed. Please check your username and password.');
         }
@@ -105,7 +105,7 @@ export default {
           email: this.register.email,
           password: this.register.password,
         });
-
+          await this.$router.push('/Home');
         // 注册成功，等待登录和获取用户详细信息完成
       } catch (error) {
         console.error(error);

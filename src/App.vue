@@ -36,7 +36,7 @@
                         <v-list-item-title>AI绘画</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item link @click="$router.push('/login')" class="white--text py-2">
+                <v-list-item v-if="!isLoggedIn" link @click="$router.push('/login')" class="white--text py-2">
                     <v-list-item-icon>
                         <v-icon color="white">mdi-login</v-icon>
                     </v-list-item-icon>
@@ -73,6 +73,9 @@ export default {
         };
     },
     computed: {
+        isLoggedIn() {
+            return this.$store.state.user.isLoggedIn;
+        },
         displayName() {
             // 基于 sessionInitialized 状态，返回相应的用户名或“神秘用户”
             return this.sessionInitialized

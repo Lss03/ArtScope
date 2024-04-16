@@ -3,6 +3,7 @@ import { loginUser, registerUser, fetchUserInfo,updateUserInfo } from '@/api/use
 export default {
     namespaced: true,
     state: {
+        isLoggedIn: false,
         userDetails: JSON.parse(localStorage.getItem('userDetails') || '{}'),
         loginStatus: '',
         registerStatus: '',
@@ -10,6 +11,9 @@ export default {
         favoritePictures: [],
     },
     mutations: {
+        SET_IS_LOGGED_IN(state, status) {
+            state.isLoggedIn = status;
+        },
         SET_USER_DETAILS(state, userDetails) {
             state.userDetails = userDetails;
             localStorage.setItem('userDetails', JSON.stringify(userDetails));
@@ -64,6 +68,7 @@ export default {
                 const response = await registerUser(userData);
                 if (response.data.success) {
                     commit('SET_REGISTER_STATUS', 'success');
+                    commit('SET_IS_LOGGED_IN',true );
                     // 注册成功后，使用新注册用户的凭证自动登录
                     await dispatch('loginUser', { username: userData.username, password: userData.password });
                 } else {
@@ -81,6 +86,7 @@ export default {
                 const response = await loginUser(credentials);
                 if (response.data.success) {
                     commit('SET_LOGIN_STATUS', 'success');
+                    commit('SET_IS_LOGGED_IN',true );
                     // 成功登录后，获取并更新用户详细信息
                     await dispatch('fetchUserDetails', credentials.username);
                 } else {
